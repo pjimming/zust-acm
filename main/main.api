@@ -1,12 +1,13 @@
-type Request {
-	Name string `path:"name,options=you|me"`
-}
+syntax = "v1"
 
-type Response {
-	Message string `json:"message"`
-}
+info(
+	title: "main"
+	desc: "Golang Package Dependency Visualization"
+	author: "panjiangming"
+	email: "panjm2001@126.com"
+	version: "v1"
+)
 
-service main-api {
-	@handler MainHandler
-	get /from/:name(Request) returns (Response)
-}
+import (
+	"apis/basic.api"
+)
