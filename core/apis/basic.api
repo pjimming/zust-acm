@@ -1,0 +1,18 @@
+syntax = "v1"
+
+info(
+	title: "basic"
+	desc: "basic apis"
+	author: "panjiangming"
+	email: "panjm2001@126.com"
+	version: "v1"
+)
+
+@server(
+	group: basic
+)
+service core-api {
+	@doc "ping"
+	@handler Ping
+	get /ping
+}

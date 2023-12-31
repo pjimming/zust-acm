@@ -1,0 +1,13 @@
+syntax = "v1"
+
+info(
+	title: "core"
+	desc: "zust-acm backend core"
+	author: "panjiangming"
+	email: "panjm2001@126.com"
+	version: "v1"
+)
+
+import (
+	"apis/basic.api"
+)
