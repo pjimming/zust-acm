@@ -8,11 +8,26 @@ info(
 	version: "v1"
 )
 
+type (
+	UserLoginReq {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+
+	UserLoginResp {
+		Token string `json:"token"`
+	}
+)
+
 @server(
 	group: basic
 )
 service core-api {
-	@doc "ping"
+	@doc "探活"
 	@handler Ping
 	get /ping
+	
+	@doc "用户登录"
+	@handler UserLogin
+	post /core/v1/user/login (UserLoginReq) returns (UserLoginResp)
 }

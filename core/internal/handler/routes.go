@@ -18,6 +18,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/ping",
 				Handler: basic.PingHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/core/v1/user/login",
+				Handler: basic.UserLoginHandler(serverCtx),
+			},
 		},
 	)
 }
