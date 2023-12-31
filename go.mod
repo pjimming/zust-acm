@@ -1,6 +1,6 @@
 module github.com/pjimming/zustacm
 
-go 1.18
+go 1.20
 
 require github.com/zeromicro/go-zero v1.6.1
 
