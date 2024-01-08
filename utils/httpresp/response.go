@@ -45,5 +45,5 @@ func HttpError(w http.ResponseWriter, r *http.Request, err error) {
 }
 
 func HttpOkJson(w http.ResponseWriter, r *http.Request, resp interface{}) {
-	httpx.OkJsonCtx(r.Context(), w, httpResp{Code: http.StatusOK, Data: resp})
+	httpx.OkJsonCtx(r.Context(), w, httpResp{Code: http.StatusOK, Data: resp, Message: "OK"})
 }

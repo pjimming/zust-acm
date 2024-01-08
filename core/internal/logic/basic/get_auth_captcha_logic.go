@@ -2,10 +2,10 @@ package basic
 
 import (
 	"context"
-	"github.com/pjimming/zustacm/utils/errorx"
 
 	"github.com/pjimming/zustacm/core/internal/svc"
 	"github.com/pjimming/zustacm/core/internal/types"
+	"github.com/pjimming/zustacm/utils/errorx"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,7 +25,7 @@ func NewGetAuthCaptchaLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 }
 
 func (l *GetAuthCaptchaLogic) GetAuthCaptcha() (resp *types.GetAuthCaptchaResp, err error) {
-	captcha, err := l.svcCtx.DigitCaptcha.DrawCaptcha("")
+	captcha, err := l.svcCtx.DigitCaptcha.DrawCaptcha("1234")
 	if err != nil {
 		err = errorx.Error500("generate captcha fail, %v")
 		return nil, err
