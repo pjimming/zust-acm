@@ -9,3 +9,7 @@ type UserLoginReq struct {
 type UserLoginResp struct {
 	Token string `json:"token"`
 }
+
+type GetAuthCaptchaResp struct {
+	Captcha string `json:"captcha"`
+}

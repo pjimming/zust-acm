@@ -14,17 +14,11 @@ const (
 	internalServerError = "内部错误，请查看日志信息或联系开发者"
 )
 
-type (
-	errResp struct {
-		Code int    `json:"code"`
-		Desc string `json:"desc,omitempty"`
-	}
-
-	successResp struct {
-		Success bool        `json:"success"`
-		Result  interface{} `json:"result"`
-	}
-)
+type httpResp struct {
+	Code    int         `json:"code"`
+	Message string      `json:"message"`
+	Data    interface{} `json:"data"`
+}
 
 func HTTP(w http.ResponseWriter, r *http.Request, resp interface{}, err error) {
 	if err != nil {
@@ -37,19 +31,19 @@ func HTTP(w http.ResponseWriter, r *http.Request, resp interface{}, err error) {
 func HttpError(w http.ResponseWriter, r *http.Request, err error) {
 	codeErr, ok := errorx.FromError(err)
 	if ok {
-		httpx.WriteJson(w, codeErr.Status(), errResp{
-			Code: codeErr.Code(),
-			Desc: codeErr.Error(),
+		httpx.WriteJson(w, codeErr.Status(), httpResp{
+			Code:    codeErr.Code(),
+			Message: codeErr.Error(),
 		})
 	} else {
-		httpx.WriteJson(w, http.StatusInternalServerError, errResp{
-			Code: codeServerError,
-			Desc: internalServerError,
+		httpx.WriteJson(w, http.StatusInternalServerError, httpResp{
+			Code:    codeServerError,
+			Message: internalServerError,
 		})
 		logx.WithContext(r.Context()).Error(err)
 	}
 }
 
 func HttpOkJson(w http.ResponseWriter, r *http.Request, resp interface{}) {
-	httpx.OkJsonCtx(r.Context(), w, successResp{Success: true, Result: resp})
+	httpx.OkJsonCtx(r.Context(), w, httpResp{Code: http.StatusOK, Data: resp})
 }

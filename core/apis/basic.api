@@ -17,6 +17,10 @@ type (
 	UserLoginResp {
 		Token string `json:"token"`
 	}
+
+	GetAuthCaptchaResp {
+		Captcha string `json:"captcha"`
+	}
 )
 
 @server(
@@ -26,8 +30,12 @@ service core-api {
 	@doc "探活"
 	@handler Ping
 	get /ping
-	
+
 	@doc "用户登录"
 	@handler UserLogin
-	post /core/v1/user/login (UserLoginReq) returns (UserLoginResp)
+	post /api/v1/user/login (UserLoginReq) returns (UserLoginResp)
+
+	@doc "获取验证码"
+	@handler GetAuthCaptcha
+	get /api/v1/auth/captcha returns (GetAuthCaptchaResp)
 }

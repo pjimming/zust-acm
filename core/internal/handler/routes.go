@@ -20,8 +20,13 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/core/v1/user/login",
+				Path:    "/api/v1/user/login",
 				Handler: basic.UserLoginHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/api/v1/auth/captcha",
+				Handler: basic.GetAuthCaptchaHandler(serverCtx),
 			},
 		},
 	)
