@@ -4,6 +4,7 @@ package handler
 import (
 	"net/http"
 
+	auth "github.com/pjimming/zustacm/core/internal/handler/auth"
 	basic "github.com/pjimming/zustacm/core/internal/handler/basic"
 	"github.com/pjimming/zustacm/core/internal/svc"
 
@@ -18,15 +19,20 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/ping",
 				Handler: basic.PingHandler(serverCtx),
 			},
+		},
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
 			{
 				Method:  http.MethodPost,
-				Path:    "/api/v1/user/login",
-				Handler: basic.UserLoginHandler(serverCtx),
+				Path:    "/api/v1/auth/login",
+				Handler: auth.AuthLoginHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodGet,
 				Path:    "/api/v1/auth/captcha",
-				Handler: basic.GetAuthCaptchaHandler(serverCtx),
+				Handler: auth.GetAuthCaptchaHandler(serverCtx),
 			},
 		},
 	)

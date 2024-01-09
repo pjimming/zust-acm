@@ -1,4 +1,4 @@
-package basic
+package auth
 
 import (
 	"context"
@@ -25,13 +25,18 @@ func NewGetAuthCaptchaLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 }
 
 func (l *GetAuthCaptchaLogic) GetAuthCaptcha() (resp *types.GetAuthCaptchaResp, err error) {
-	captchaId, b64s, answer, err := l.svcCtx.AuthCaptcha.Generate()
+	captchaId, b64s, _, err := l.svcCtx.AuthCaptcha.Generate()
 	if err != nil {
 		err = errorx.Error500("generate captcha fail, %v")
 		return nil, err
 	}
-	logx.Debug(captchaId, b64s, answer)
 
-	resp = &types.GetAuthCaptchaResp{Captcha: b64s}
+	// logx.Debug(captchaId, b64s, answer)
+
+	resp = &types.GetAuthCaptchaResp{
+		CaptchaId: captchaId,
+		B64s:      b64s,
+	}
+
 	return
 }

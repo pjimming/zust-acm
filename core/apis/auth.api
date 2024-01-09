@@ -1,0 +1,40 @@
+syntax = "v1"
+
+info(
+	title: "auth"
+	desc: "auth apis"
+	author: "panjiangming"
+	email: "panjm2001@126.com"
+	version: "v1"
+)
+
+type (
+	AuthLoginReq {
+		Username  string `json:"username"`
+		Password  string `json:"password"`
+		Captcha   string `json:"captcha"`
+		CaptchaId string `json:"captcha_id"`
+	}
+
+	AuthLoginResp {
+		Token string `json:"token"`
+	}
+
+	GetAuthCaptchaResp {
+		CaptchaId string `json:"captcha_id"`
+		B64s      string `json:"b64s"`
+	}
+)
+
+@server(
+	group: auth
+)
+service core-api {
+	@doc "用户登录"
+	@handler AuthLogin
+	post /api/v1/auth/login (AuthLoginReq) returns (AuthLoginResp)
+
+	@doc "获取验证码"
+	@handler GetAuthCaptcha
+	get /api/v1/auth/captcha returns (GetAuthCaptchaResp)
+}
