@@ -25,12 +25,13 @@ func NewGetAuthCaptchaLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 }
 
 func (l *GetAuthCaptchaLogic) GetAuthCaptcha() (resp *types.GetAuthCaptchaResp, err error) {
-	captcha, err := l.svcCtx.DigitCaptcha.DrawCaptcha("1234")
+	captchaId, b64s, answer, err := l.svcCtx.AuthCaptcha.Generate()
 	if err != nil {
 		err = errorx.Error500("generate captcha fail, %v")
 		return nil, err
 	}
+	logx.Debug(captchaId, b64s, answer)
 
-	resp = &types.GetAuthCaptchaResp{Captcha: captcha.EncodeB64string()}
+	resp = &types.GetAuthCaptchaResp{Captcha: b64s}
 	return
 }

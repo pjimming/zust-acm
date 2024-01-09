@@ -6,13 +6,16 @@ import (
 )
 
 type ServiceContext struct {
-	Config       config.Config
-	DigitCaptcha *base64Captcha.DriverDigit
+	Config      config.Config
+	AuthCaptcha *base64Captcha.Captcha
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
-		Config:       c,
-		DigitCaptcha: base64Captcha.NewDriverDigit(40, 80, 4, 0.4, 15),
+		Config: c,
+		AuthCaptcha: base64Captcha.NewCaptcha(
+			base64Captcha.NewDriverDigit(40, 80, 4, 0.4, 15),
+			base64Captcha.DefaultMemStore,
+		),
 	}
 }
