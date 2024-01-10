@@ -7,7 +7,7 @@ import (
 	"github.com/pjimming/zustacm/core/internal/types"
 	"github.com/pjimming/zustacm/core/model"
 	"github.com/pjimming/zustacm/core/utils/errorx"
-	"github.com/pjimming/zustacm/core/utils/helper"
+	"github.com/pjimming/zustacm/core/utils/userauth"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -43,12 +43,17 @@ func (l *AuthLoginLogic) AuthLogin(req *types.AuthLoginReq) (resp *types.AuthLog
 		return nil, err
 	}
 
-	if err = helper.CheckPwd(userAuth.Password, req.Password); err != nil {
+	if err = userauth.CheckPwd(userAuth.Password, req.Password); err != nil {
 		err = errorx.ErrorAuth()
 		return nil, err
 	}
 
-	resp = &types.AuthLoginResp{Token: "123"}
+	token, err := userauth.GenToken(req.Username)
+	if err != nil {
+		err = errorx.Error500f("gen token fail, %v", err)
+		return nil, err
+	}
+	resp = &types.AuthLoginResp{Token: token}
 
 	return
 }

@@ -6,7 +6,7 @@ import (
 	"github.com/pjimming/zustacm/core/internal/types"
 	"github.com/pjimming/zustacm/core/model"
 	"github.com/pjimming/zustacm/core/utils/errorx"
-	"github.com/pjimming/zustacm/core/utils/helper"
+	"github.com/pjimming/zustacm/core/utils/userauth"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -34,7 +34,7 @@ func (l *AddUserLogic) AddUser(req *types.AddUserReq) (resp *types.AddUserResp, 
 	user := &model.UserAuth{
 		Username: req.Username,
 	}
-	user.Password, _ = helper.EncryptPwd(req.Password)
+	user.Password, _ = userauth.EncryptPwd(req.Password)
 	if _, err = l.svcCtx.UserAuthModel.Insert(l.ctx, user); err != nil {
 		err = errorx.ErrorDB(err)
 		return nil, err
