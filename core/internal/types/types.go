@@ -16,3 +16,12 @@ type GetAuthCaptchaResp struct {
 	CaptchaId string `json:"captcha_id"`
 	B64s      string `json:"b64s"`
 }
+
+type AddUserReq struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+type AddUserResp struct {
+	ID int64 `json:"id"`
+}

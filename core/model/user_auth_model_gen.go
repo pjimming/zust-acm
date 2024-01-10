@@ -18,8 +18,8 @@ import (
 var (
 	userAuthFieldNames          = builder.RawFieldNames(&UserAuth{})
 	userAuthRows                = strings.Join(userAuthFieldNames, ",")
-	userAuthRowsExpectAutoSet   = strings.Join(stringx.Remove(userAuthFieldNames, "`id`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), ",")
-	userAuthRowsWithPlaceHolder = strings.Join(stringx.Remove(userAuthFieldNames, "`id`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), "=?,") + "=?"
+	userAuthRowsExpectAutoSet   = strings.Join(stringx.Remove(userAuthFieldNames, "`id`", "`gmt_created`", "`gmt_updated`"), ",")
+	userAuthRowsWithPlaceHolder = strings.Join(stringx.Remove(userAuthFieldNames, "`id`", "`gmt_created`", "`gmt_updated`"), "=?,") + "=?"
 )
 
 type (
@@ -88,14 +88,14 @@ func (m *defaultUserAuthModel) FindOneByUsername(ctx context.Context, username s
 }
 
 func (m *defaultUserAuthModel) Insert(ctx context.Context, data *UserAuth) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?)", m.table, userAuthRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.GmtCreated, data.GmtUpdated, data.IsDelete, data.Username, data.Password)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?)", m.table, userAuthRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.IsDelete, data.Username, data.Password)
 	return ret, err
 }
 
 func (m *defaultUserAuthModel) Update(ctx context.Context, newData *UserAuth) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, userAuthRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, newData.GmtCreated, newData.GmtUpdated, newData.IsDelete, newData.Username, newData.Password, newData.Id)
+	_, err := m.conn.ExecCtx(ctx, query, newData.IsDelete, newData.Username, newData.Password, newData.Id)
 	return err
 }
 

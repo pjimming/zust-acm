@@ -18,8 +18,8 @@ import (
 var (
 	userInfoFieldNames          = builder.RawFieldNames(&UserInfo{})
 	userInfoRows                = strings.Join(userInfoFieldNames, ",")
-	userInfoRowsExpectAutoSet   = strings.Join(stringx.Remove(userInfoFieldNames, "`id`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), ",")
-	userInfoRowsWithPlaceHolder = strings.Join(stringx.Remove(userInfoFieldNames, "`id`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), "=?,") + "=?"
+	userInfoRowsExpectAutoSet   = strings.Join(stringx.Remove(userInfoFieldNames, "`id`", "`gmt_created`", "`gmt_updated`"), ",")
+	userInfoRowsWithPlaceHolder = strings.Join(stringx.Remove(userInfoFieldNames, "`id`", "`gmt_created`", "`gmt_updated`"), "=?,") + "=?"
 )
 
 type (
@@ -96,14 +96,14 @@ func (m *defaultUserInfoModel) FindOneByUsername(ctx context.Context, username s
 }
 
 func (m *defaultUserInfoModel) Insert(ctx context.Context, data *UserInfo) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, userInfoRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.GmtCreated, data.GmtUpdated, data.IsDelete, data.Username, data.Email, data.TitlePhoto, data.Name, data.Cname, data.CfId, data.CfRating, data.CfRank, data.AtcId, data.NowcoderId)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, userInfoRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.IsDelete, data.Username, data.Email, data.TitlePhoto, data.Name, data.Cname, data.CfId, data.CfRating, data.CfRank, data.AtcId, data.NowcoderId)
 	return ret, err
 }
 
 func (m *defaultUserInfoModel) Update(ctx context.Context, newData *UserInfo) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, userInfoRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, newData.GmtCreated, newData.GmtUpdated, newData.IsDelete, newData.Username, newData.Email, newData.TitlePhoto, newData.Name, newData.Cname, newData.CfId, newData.CfRating, newData.CfRank, newData.AtcId, newData.NowcoderId, newData.Id)
+	_, err := m.conn.ExecCtx(ctx, query, newData.IsDelete, newData.Username, newData.Email, newData.TitlePhoto, newData.Name, newData.Cname, newData.CfId, newData.CfRating, newData.CfRank, newData.AtcId, newData.NowcoderId, newData.Id)
 	return err
 }
 

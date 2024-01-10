@@ -11,4 +11,5 @@ info(
 import (
 	"apis/basic.api"
 	"apis/auth.api"
+	"apis/user.api"
 )
