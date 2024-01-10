@@ -9,3 +9,6 @@ Log:
   Level: debug
   Stat: false
   MaxContentLength: 524288000
+
+Mysql:
+  DSN: root:123456@tcp(127.0.0.1:3306)/zust_acm?charset=utf8mb4&parseTime=True&loc=Local

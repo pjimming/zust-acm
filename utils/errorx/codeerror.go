@@ -3,6 +3,12 @@ package errorx
 import (
 	"errors"
 	"fmt"
+	"net/http"
+)
+
+// custom http code
+const (
+	authCaptcha = 10003
 )
 
 type (
@@ -55,7 +61,11 @@ func FromError(err error) (CodeError, bool) {
 }
 
 func Error400(desc string) CodeError {
-	return NewCodeError(400, 400, desc)
+	return NewCodeError(http.StatusBadRequest, http.StatusBadRequest, desc)
+}
+
+func Error400f(format string, a ...any) CodeError {
+	return NewCodeError(http.StatusBadRequest, http.StatusBadRequest, fmt.Sprintf(format, a...))
 }
 
 func Error500(desc string) CodeError {
@@ -67,5 +77,9 @@ func ErrorDB(err error) CodeError {
 }
 
 func ErrorAuth() CodeError {
-	return NewCodeError(401, 401, "认证失败")
+	return NewCodeError(http.StatusUnauthorized, http.StatusUnauthorized, "认证失败")
+}
+
+func ErrorAuthCaptcha() CodeError {
+	return NewCodeError(authCaptcha, http.StatusUnauthorized, "验证码错误")
 }

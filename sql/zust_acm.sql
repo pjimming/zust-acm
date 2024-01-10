@@ -5,7 +5,7 @@ CREATE TABLE `user_auth`
     `gmt_created` datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `gmt_updated` datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `is_delete`   tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '是否删除，0-未删除，1-删除，默认为0',
-    `username`    varchar(20)         NOT NULL UNIQUE COMMENT '账号',
+    `username`    varchar(20)         NOT NULL DEFAULT '' UNIQUE COMMENT '账号',
     `password`    varchar(256)        NOT NULL DEFAULT '' COMMENT '密码，加密后',
     PRIMARY KEY (`id`)
 ) ENGINE = INNODB
@@ -18,7 +18,7 @@ CREATE TABLE `user_info`
     `gmt_created` datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `gmt_updated` datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `is_delete`   tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '是否删除，0-未删除，1-删除，默认为0',
-    `username`    varchar(20)         NOT NULL UNIQUE COMMENT '账号',
+    `username`    varchar(20)         NOT NULL DEFAULT '' UNIQUE COMMENT '账号',
     `email`       varchar(128)        NOT NULL DEFAULT '' COMMENT '邮箱',
     `title_photo` varchar(512)        NOT NULL DEFAULT '' COMMENT '头像',
     `name`        varchar(32)         NOT NULL DEFAULT '' COMMENT 'english name',
