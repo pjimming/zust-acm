@@ -1,9 +1,8 @@
 package httpresp
 
 import (
+	"github.com/pjimming/zustacm/core/utils/errorx"
 	"net/http"
-
-	"github.com/pjimming/zustacm/utils/errorx"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/rest/httpx"

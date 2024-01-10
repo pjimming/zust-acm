@@ -1,0 +1,29 @@
+syntax = "v1"
+
+info(
+	title: "user"
+	desc: "user apis"
+	author: "panjiangming"
+	email: "panjm2001@126.com"
+	version: "v1"
+)
+
+type (
+	AddUserReq {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+
+	AddUserResp {
+		ID int64 `json:"id"`
+	}
+)
+
+@server(
+	group: user
+)
+service core-api {
+	@doc "新增用户"
+	@handler AddUser
+	post /api/v1/user (AddUserReq) returns (AddUserResp)
+}

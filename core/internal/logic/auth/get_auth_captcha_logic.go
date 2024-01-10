@@ -2,11 +2,10 @@ package auth
 
 import (
 	"context"
+	"github.com/pjimming/zustacm/core/utils/errorx"
 
 	"github.com/pjimming/zustacm/core/internal/svc"
 	"github.com/pjimming/zustacm/core/internal/types"
-	"github.com/pjimming/zustacm/utils/errorx"
-
 	"github.com/zeromicro/go-zero/core/logx"
 )
 

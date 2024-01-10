@@ -1,11 +1,11 @@
 package auth
 
 import (
+	"github.com/pjimming/zustacm/core/utils/httpresp"
 	"net/http"
 
 	"github.com/pjimming/zustacm/core/internal/logic/auth"
 	"github.com/pjimming/zustacm/core/internal/svc"
-	"github.com/pjimming/zustacm/utils/httpresp"
 )
 
 func GetAuthCaptchaHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
