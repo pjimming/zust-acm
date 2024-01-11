@@ -38,8 +38,8 @@ type AddResourceReq struct {
 	Path      string `json:"path"`
 	Icon      string `json:"icon,optional"`
 	Component string `json:"component,optional"`
-	IsShow    bool   `json:"is_show"`
-	IsEnable  bool   `json:"is_enable"`
+	IsShow    bool   `json:"is_show,default=true"`
+	IsEnable  bool   `json:"is_enable,default=true"`
 	Order     int    `json:"order"`
 }
 
