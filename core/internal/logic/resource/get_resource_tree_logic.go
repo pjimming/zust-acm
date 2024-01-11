@@ -3,8 +3,11 @@ package resource
 import (
 	"context"
 
+	"github.com/pjimming/zustacm/core/internal/common"
 	"github.com/pjimming/zustacm/core/internal/svc"
 	"github.com/pjimming/zustacm/core/internal/types"
+	"github.com/pjimming/zustacm/core/model"
+	"github.com/pjimming/zustacm/core/utils/errorx"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,7 +27,14 @@ func NewGetResourceTreeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *G
 }
 
 func (l *GetResourceTreeLogic) GetResourceTree() (resp *types.GetResourceTreeResp, err error) {
-	// todo: add your logic here and delete this line
+
+	resources := make([]*model.Resource, 0)
+	if err = l.svcCtx.DB.Where("type = ?", "MENU").Find(&resources).Error; err != nil {
+		err = errorx.ErrorDB(err)
+		return nil, err
+	}
+
+	resp = &types.GetResourceTreeResp{Resource: common.GetResourceTree(resources)}
 
 	return
 }

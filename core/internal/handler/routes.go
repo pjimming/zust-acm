@@ -77,7 +77,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 				{
 					Method:  http.MethodGet,
-					Path:    "/api/v1/resources/tree",
+					Path:    "/api/v1/resource/menu/tree",
 					Handler: resource.GetResourceTreeHandler(serverCtx),
 				},
 			}...,
