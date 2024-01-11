@@ -3,8 +3,8 @@ package {{.PkgName}}
 import (
 	"net/http"
 
-	"github.com/pjimming/zustacm/utils/errorx"
-	"github.com/pjimming/zustacm/utils/httpresp"
+	"github.com/pjimming/zustacm/core/utils/errorx"
+    "github.com/pjimming/zustacm/core/utils/httpresp"
 	{{.ImportPackages}}
 
 	{{if .HasRequest}}"github.com/zeromicro/go-zero/rest/httpx"{{end}}

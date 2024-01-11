@@ -24,6 +24,10 @@ type (
 		CaptchaId string `json:"captcha_id"`
 		B64s      string `json:"b64s"`
 	}
+
+	AuthLogoutReq {
+		Token string `json:"token"`
+	}
 )
 
 @server(
@@ -37,4 +41,8 @@ service core-api {
 	@doc "获取验证码"
 	@handler GetAuthCaptcha
 	get /api/v1/auth/captcha returns (GetAuthCaptchaResp)
+
+	@doc "用户注销"
+	@handler AuthLogout
+	post /api/v1/auth/logout (AuthLogoutReq)
 }

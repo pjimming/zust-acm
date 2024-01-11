@@ -17,6 +17,10 @@ type GetAuthCaptchaResp struct {
 	B64s      string `json:"b64s"`
 }
 
+type AuthLogoutReq struct {
+	Token string `json:"token"`
+}
+
 type AddUserReq struct {
 	Username string `json:"username"`
 	Password string `json:"password"`

@@ -35,6 +35,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/api/v1/auth/captcha",
 				Handler: auth.GetAuthCaptchaHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/api/v1/auth/logout",
+				Handler: auth.AuthLogoutHandler(serverCtx),
+			},
 		},
 	)
 
