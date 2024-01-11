@@ -34,6 +34,7 @@ func HttpError(w http.ResponseWriter, r *http.Request, err error) {
 			Code:    codeErr.Code(),
 			Message: codeErr.Error(),
 		})
+		logx.WithContext(r.Context()).Error(err)
 	} else {
 		httpx.WriteJson(w, http.StatusInternalServerError, httpResp{
 			Code:    codeServerError,

@@ -13,16 +13,34 @@ type (
 		Name      string `json:"name"`
 		Code      string `json:"code"`
 		Type      string `json:"type"`
-		ParentID  int    `json:"parent_id"`
+		ParentID  int    `json:"parent_id,default=0"`
 		Path      string `json:"path"`
-		Icon      string `json:"icon"`
-		Component string `json:"component"`
+		Icon      string `json:"icon,optional"`
+		Component string `json:"component,optional"`
 		IsShow    bool   `json:"is_show"`
 		IsEnable  bool   `json:"is_enable"`
 		Order     int    `json:"order"`
 	}
 
 	AddResourceResp {
+		ID int64 `json:"id"`
+	}
+
+	SaveResourceReq {
+		ID        int64  `path:"id"`
+		Name      string `json:"name"`
+		Code      string `json:"code"`
+		Type      string `json:"type"`
+		ParentID  int    `json:"parent_id,default=0"`
+		Path      string `json:"path"`
+		Icon      string `json:"icon,optional"`
+		Component string `json:"component,optional"`
+		IsShow    bool   `json:"is_show"`
+		IsEnable  bool   `json:"is_enable"`
+		Order     int    `json:"order"`
+	}
+
+	SaveResourceResp {
 		ID int64 `json:"id"`
 	}
 
@@ -54,6 +72,10 @@ service core-api {
 	@doc "新增资源"
 	@handler AddResource
 	post /api/v1/resource (AddResourceReq) returns (AddResourceResp)
+
+	@doc "修改资源"
+	@handler SaveResource
+	put /api/v1/resource/:id (SaveResourceReq) returns (SaveResourceResp)
 
 	@doc "获取资源树"
 	@handler GetResourceTree

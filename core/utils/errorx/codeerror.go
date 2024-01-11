@@ -3,6 +3,7 @@ package errorx
 import (
 	"errors"
 	"fmt"
+	"gorm.io/gorm"
 	"net/http"
 )
 
@@ -78,6 +79,9 @@ func Error500f(format string, a ...any) CodeError {
 }
 
 func ErrorDB(err error) CodeError {
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return NewCodeError(400, 400, "资源不存在")
+	}
 	return NewCodeError(500, 500, fmt.Sprintf("[DB ERROR]: %v", err))
 }
 
