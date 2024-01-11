@@ -1,6 +1,8 @@
 package common
 
 import (
+	"sort"
+
 	"github.com/pjimming/zustacm/core/internal/types"
 	"github.com/pjimming/zustacm/core/model"
 
@@ -23,9 +25,11 @@ func GetResourceTree(resources []*model.Resource) []*types.Resource {
 		q = q[1:]
 
 		v, ok := resourcesMap[node.ID]
-		if ok {
-			node.Children = make([]*types.Resource, 0)
+		if !ok {
+			continue
 		}
+
+		node.Children = make([]*types.Resource, 0)
 
 		for _, resource := range v {
 			child := &types.Resource{}
@@ -33,6 +37,10 @@ func GetResourceTree(resources []*model.Resource) []*types.Resource {
 			node.Children = append(node.Children, child)
 			q = append(q, child)
 		}
+
+		sort.Slice(node.Children, func(i, j int) bool {
+			return node.Children[i].Order < node.Children[j].Order
+		})
 	}
 
 	return dummy.Children
