@@ -29,3 +29,39 @@ type AddUserReq struct {
 type AddUserResp struct {
 	ID int64 `json:"id"`
 }
+
+type AddResourceReq struct {
+	Name      string `json:"name"`
+	Code      string `json:"code"`
+	Type      string `json:"type"`
+	ParentID  int    `json:"parent_id"`
+	Path      string `json:"path"`
+	Icon      string `json:"icon"`
+	Component string `json:"component"`
+	IsShow    bool   `json:"is_show"`
+	IsEnable  bool   `json:"is_enable"`
+	Order     int    `json:"order"`
+}
+
+type AddResourceResp struct {
+	ID int64 `json:"id"`
+}
+
+type GetResourceTreeResp struct {
+	Resource []*Resource `json:"resource"`
+}
+
+type Resource struct {
+	ID        int64       `json:"id"`
+	Name      string      `json:"name"`
+	Code      string      `json:"code"`
+	Type      string      `json:"type"`
+	ParentID  int         `json:"parent_id"`
+	Path      string      `json:"path"`
+	Icon      string      `json:"icon"`
+	Component string      `json:"component"`
+	IsShow    bool        `json:"is_show"`
+	IsEnable  bool        `json:"is_enable"`
+	Order     int         `json:"order"`
+	Children  []*Resource `json:"children"`
+}

@@ -12,4 +12,5 @@ import (
 	"apis/basic.api"
 	"apis/auth.api"
 	"apis/user.api"
+	"apis/resource.api"
 )

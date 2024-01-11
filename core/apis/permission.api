@@ -7,3 +7,29 @@ info(
 	email: "panjm2001@126.com"
 	version: "v1"
 )
+
+type (
+	AddPermissionReq {
+		Name        string `json:"name"`
+		Code        string `json:"code"`
+		Type        string `json:"type"`
+		ParentID    int    `json:"parentId"`
+		Path        string `json:"path"`
+		Icon        string `json:"icon"`
+		Component   string `json:"component"`
+		Description string `json:"description"`
+		IsShow      bool   `json:"is_show"`
+		IsEnable    bool   `json:"is_enable"`
+		Order       int    `json:"order"`
+	}
+)
+
+@server(
+	group: permission
+	middleware: JwtAuth
+)
+service core-api {
+	@doc "新增权限"
+	@handler AddPermission
+	post /api/v1/permission () returns ()
+}

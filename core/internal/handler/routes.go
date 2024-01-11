@@ -6,6 +6,7 @@ import (
 
 	auth "github.com/pjimming/zustacm/core/internal/handler/auth"
 	basic "github.com/pjimming/zustacm/core/internal/handler/basic"
+	resource "github.com/pjimming/zustacm/core/internal/handler/resource"
 	user "github.com/pjimming/zustacm/core/internal/handler/user"
 	"github.com/pjimming/zustacm/core/internal/svc"
 
@@ -59,6 +60,24 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPost,
 					Path:    "/api/v1/user",
 					Handler: user.AddUserHandler(serverCtx),
+				},
+			}...,
+		),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.JwtAuth},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/api/v1/resource",
+					Handler: resource.AddResourceHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/api/v1/resource/tree",
+					Handler: resource.GetResourceTreeHandler(serverCtx),
 				},
 			}...,
 		),
