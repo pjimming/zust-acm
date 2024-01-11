@@ -1,0 +1,9 @@
+syntax = "v1"
+
+info(
+	title: "permission"
+	desc: "permission apis"
+	author: "panjiangming"
+	email: "panjm2001@126.com"
+	version: "v1"
+)

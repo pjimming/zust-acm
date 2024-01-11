@@ -50,5 +50,5 @@ service core-api {
 service core-api {
 	@doc "用户注销"
 	@handler AuthLogout
-	post /api/v1/auth/logout (AuthLogoutReq)
+	post /api/v1/auth/logout
 }

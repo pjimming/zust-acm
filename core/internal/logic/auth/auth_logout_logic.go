@@ -2,10 +2,10 @@ package auth
 
 import (
 	"context"
+	"github.com/pjimming/zustacm/core/utils/errorx"
+	"github.com/pjimming/zustacm/core/utils/userauth"
 
 	"github.com/pjimming/zustacm/core/internal/svc"
-	"github.com/pjimming/zustacm/core/internal/types"
-
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -23,8 +23,16 @@ func NewAuthLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AuthLo
 	}
 }
 
-func (l *AuthLogoutLogic) AuthLogout(req *types.AuthLogoutReq) error {
-	// todo: add your logic here and delete this line
+func (l *AuthLogoutLogic) AuthLogout() error {
+	// rm redis token
+	token, ok := userauth.GetTokenFromCtx(l.ctx)
+	if !ok {
+		return errorx.ErrorTokenInvalid()
+	}
+
+	if err := l.svcCtx.Redis.Del(l.ctx, token).Err(); err != nil {
+		return errorx.ErrorRedis(err)
+	}
 
 	return nil
 }
