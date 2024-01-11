@@ -9,27 +9,63 @@ info(
 )
 
 type (
-	AddPermissionReq {
-		Name        string `json:"name"`
-		Code        string `json:"code"`
-		Type        string `json:"type"`
-		ParentID    int    `json:"parentId"`
-		Path        string `json:"path"`
-		Icon        string `json:"icon"`
-		Component   string `json:"component"`
-		Description string `json:"description"`
-		IsShow      bool   `json:"is_show"`
-		IsEnable    bool   `json:"is_enable"`
-		Order       int    `json:"order"`
+	AddResourceReq {
+		Name      string `json:"name"`
+		Code      string `json:"code"`
+		Type      string `json:"type"`
+		ParentID  int    `json:"parent_id"`
+		Path      string `json:"path"`
+		Icon      string `json:"icon"`
+		Component string `json:"component"`
+		IsShow    bool   `json:"is_show"`
+		IsEnable  bool   `json:"is_enable"`
+		Order     int    `json:"order"`
+	}
+
+	AddResourceResp {
+		ID int64 `json:"id"`
+	}
+
+	GetResourceTreeResp {
+		Resource []*Resource `json:"resource"`
+	}
+
+	Resource {
+		ID        int64       `json:"id"`
+		Name      string      `json:"name"`
+		Code      string      `json:"code"`
+		Type      string      `json:"type"`
+		ParentID  int         `json:"parent_id"`
+		Path      string      `json:"path"`
+		Icon      string      `json:"icon"`
+		Component string      `json:"component"`
+		IsShow    bool        `json:"is_show"`
+		IsEnable  bool        `json:"is_enable"`
+		Order     int         `json:"order"`
+		Children  []*Resource `json:"children"`
 	}
 )
+
+@server(
+	group: resource
+	middleware: JwtAuth
+)
+service core-api {
+	@doc "新增资源"
+	@handler AddResource
+	post /api/v1/resource (AddResourceReq) returns (AddResourceResp)
+
+	@doc "获取资源树"
+	@handler GetResourceTree
+	get /api/v1/resource/menu/tree returns (GetResourceTreeResp)
+}
 
 @server(
 	group: permission
 	middleware: JwtAuth
 )
 service core-api {
-	@doc "新增权限"
-	@handler AddPermission
-	post /api/v1/permission () returns ()
+	@doc "获取角色权限树"
+	@handler GetRolePermissionTree
+	get /api/v1/role/permissions/tree  returns (GetResourceTreeResp)
 }
