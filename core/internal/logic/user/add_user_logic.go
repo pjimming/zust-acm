@@ -26,21 +26,33 @@ func NewAddUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddUserLo
 
 func (l *AddUserLogic) AddUser(req *types.AddUserReq) (resp *types.AddUserResp, err error) {
 
-	if isExist, _ := l.svcCtx.UserAuthModel.FindOneByUsername(l.ctx, req.Username); isExist != nil {
-		err = errorx.Error400f("[%s]用户已经存在", req.Username)
-		return nil, err
-	}
-
-	user := &model.UserAuth{
-		Username: req.Username,
-	}
-	user.Password, _ = userauth.EncryptPwd(req.Password)
-	if _, err = l.svcCtx.UserAuthModel.Insert(l.ctx, user); err != nil {
+	var userCount int64
+	if err = l.svcCtx.DB.Model(&model.UserAuth{}).
+		Where("username = ?", req.Username).
+		Count(&userCount).Error; err != nil {
 		err = errorx.ErrorDB(err)
 		return nil, err
 	}
 
-	resp = &types.AddUserResp{ID: int64(user.Id)}
+	if userCount > 0 {
+		err = errorx.Error400f("[%s]用户已经存在", req.Username)
+		return nil, err
+	}
+
+	userAuth := &model.UserAuth{Username: req.Username}
+	userInfo := &model.UserInfo{Username: req.Username}
+	userAuth.Password, _ = userauth.EncryptPwd(req.Password)
+
+	if err = l.svcCtx.DB.Create(userAuth).Error; err != nil {
+		err = errorx.ErrorDB(err)
+		return nil, err
+	}
+	if err = l.svcCtx.DB.Create(userInfo).Error; err != nil {
+		err = errorx.ErrorDB(err)
+		return nil, err
+	}
+
+	resp = &types.AddUserResp{ID: userAuth.ID}
 
 	return
 }

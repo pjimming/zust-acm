@@ -1,21 +1,27 @@
 package svc
 
 import (
-	"github.com/mojocn/base64Captcha"
 	"github.com/pjimming/zustacm/core/internal/config"
-	"github.com/pjimming/zustacm/core/model"
-	"github.com/zeromicro/go-zero/core/stores/sqlx"
+
+	"github.com/mojocn/base64Captcha"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 type ServiceContext struct {
-	Config        config.Config
-	AuthCaptcha   *base64Captcha.Captcha
-	UserAuthModel model.UserAuthModel
-	UserInfoModel model.UserInfoModel
+	Config      config.Config
+	AuthCaptcha *base64Captcha.Captcha
+	DB          *gorm.DB
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
-	sqlConn := sqlx.NewMysql(c.Mysql.DSN)
+	db, err := gorm.Open(mysql.Open(c.Mysql.DSN), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	})
+	if err != nil {
+		panic(err)
+	}
 
 	return &ServiceContext{
 		Config: c,
@@ -23,7 +29,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 			base64Captcha.NewDriverDigit(40, 80, 4, 0.4, 15),
 			base64Captcha.DefaultMemStore,
 		),
-		UserAuthModel: model.NewUserAuthModel(sqlConn),
-		UserInfoModel: model.NewUserInfoModel(sqlConn),
+		DB: db,
 	}
 }

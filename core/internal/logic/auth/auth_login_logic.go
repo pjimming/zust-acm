@@ -2,7 +2,6 @@ package auth
 
 import (
 	"context"
-	"errors"
 	"github.com/pjimming/zustacm/core/internal/svc"
 	"github.com/pjimming/zustacm/core/internal/types"
 	"github.com/pjimming/zustacm/core/model"
@@ -33,13 +32,10 @@ func (l *AuthLoginLogic) AuthLogin(req *types.AuthLoginReq) (resp *types.AuthLog
 		return nil, err
 	}
 
-	userAuth, err := l.svcCtx.UserAuthModel.FindOneByUsername(l.ctx, req.Username)
+	userAuth := &model.UserAuth{}
+	err = l.svcCtx.DB.Model(&model.UserAuth{}).Where("username = ?", req.Username).Limit(1).Find(userAuth).Error
 	if err != nil {
-		if errors.Is(err, model.ErrNotFound) {
-			err = errorx.Error400f("没有该[%s]用户", req.Username)
-		} else {
-			err = errorx.ErrorDB(err)
-		}
+		err = errorx.ErrorDB(err)
 		return nil, err
 	}
 
