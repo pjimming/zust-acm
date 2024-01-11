@@ -3,7 +3,9 @@ package svc
 import (
 	"context"
 	"github.com/pjimming/zustacm/core/internal/config"
+	"github.com/pjimming/zustacm/core/internal/middleware"
 	"github.com/redis/go-redis/v9"
+	"github.com/zeromicro/go-zero/rest"
 
 	"github.com/mojocn/base64Captcha"
 	"gorm.io/driver/mysql"
@@ -13,9 +15,10 @@ import (
 
 type ServiceContext struct {
 	Config      config.Config
-	AuthCaptcha *base64Captcha.Captcha
+	JwtAuth     rest.Middleware
 	DB          *gorm.DB
 	Redis       *redis.Client
+	AuthCaptcha *base64Captcha.Captcha
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -38,8 +41,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	}
 
 	return &ServiceContext{
-		Config: c,
-		DB:     db,
+		Config:  c,
+		DB:      db,
+		JwtAuth: middleware.JwtAuth(rdc),
 		AuthCaptcha: base64Captcha.NewCaptcha(
 			base64Captcha.NewDriverDigit(40, 80, 4, 0.4, 15),
 			base64Captcha.DefaultMemStore,

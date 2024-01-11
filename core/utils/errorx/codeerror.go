@@ -8,7 +8,8 @@ import (
 
 // custom http code
 const (
-	authCaptcha = 10003
+	authCaptcha  = 10003
+	tokenInvalid = 40100
 )
 
 type (
@@ -80,10 +81,18 @@ func ErrorDB(err error) CodeError {
 	return NewCodeError(500, 500, fmt.Sprintf("[DB ERROR]: %v", err))
 }
 
+func ErrorRedis(err error) CodeError {
+	return NewCodeError(500, 500, fmt.Sprintf("[REDIS ERROR]: %v", err))
+}
+
 func ErrorAuth() CodeError {
-	return NewCodeError(http.StatusUnauthorized, http.StatusUnauthorized, "认证失败")
+	return NewCodeError(401, 401, "认证失败")
+}
+
+func ErrorTokenInvalid() CodeError {
+	return NewCodeError(tokenInvalid, 401, "非法Token")
 }
 
 func ErrorAuthCaptcha() CodeError {
-	return NewCodeError(authCaptcha, http.StatusUnauthorized, "验证码错误")
+	return NewCodeError(authCaptcha, 401, "验证码错误")
 }

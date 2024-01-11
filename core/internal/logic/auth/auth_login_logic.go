@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"github.com/pjimming/zustacm/core/constant"
 	"github.com/pjimming/zustacm/core/internal/svc"
 	"github.com/pjimming/zustacm/core/internal/types"
 	"github.com/pjimming/zustacm/core/model"
@@ -50,6 +51,13 @@ func (l *AuthLoginLogic) AuthLogin(req *types.AuthLoginReq) (resp *types.AuthLog
 		return nil, err
 	}
 	resp = &types.AuthLoginResp{Token: token}
+
+	// set token
+	if err = l.svcCtx.Redis.Set(l.ctx, userauth.GenTokenKey(token), 1, constant.TokenExpire).
+		Err(); err != nil {
+		err = errorx.ErrorRedis(err)
+		return nil, err
+	}
 
 	return
 }
