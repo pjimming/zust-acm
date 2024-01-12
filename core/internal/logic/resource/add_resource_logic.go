@@ -31,7 +31,7 @@ func (l *AddResourceLogic) AddResource(req *types.AddResourceReq) (resp *types.A
 	resource := &model.Resource{}
 	_ = copier.Copy(resource, req)
 
-	if err = l.svcCtx.DB.Create(resource).Error; err != nil {
+	if err = l.svcCtx.DB.Save(resource).Error; err != nil {
 		err = errorx.ErrorDB(err)
 		return nil, err
 	}

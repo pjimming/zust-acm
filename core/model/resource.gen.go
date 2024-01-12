@@ -26,8 +26,8 @@ type Resource struct {
 	Icon      string         `gorm:"column:icon;type:varchar(512);not null;comment:菜单图标" json:"icon"`                                   // 菜单图标
 	Component string         `gorm:"column:component;type:varchar(512);not null;comment:组件路径" json:"component"`                         // 组件路径
 	Path      string         `gorm:"column:path;type:varchar(512);not null;comment:路由地址" json:"path"`                                   // 路由地址
-	IsShow    bool           `gorm:"column:is_show;type:tinyint(1);not null;default:1;comment:是否显示" json:"is_show"`                     // 是否显示
-	IsEnable  bool           `gorm:"column:is_enable;type:tinyint(1);not null;default:1;comment:是否启用" json:"is_enable"`                 // 是否启用
+	IsShow    bool           `gorm:"column:is_show;type:tinyint(1);not null;comment:是否显示" json:"is_show"`                               // 是否显示
+	IsEnable  bool           `gorm:"column:is_enable;type:tinyint(1);not null;comment:是否启用" json:"is_enable"`                           // 是否启用
 }
 
 // TableName Resource's table name

@@ -34,12 +34,12 @@ type AddResourceReq struct {
 	Name      string `json:"name"`
 	Code      string `json:"code"`
 	Type      string `json:"type"`
-	ParentID  int    `json:"parent_id,default=0"`
+	ParentID  int    `json:"parent_id"`
 	Path      string `json:"path"`
 	Icon      string `json:"icon,optional"`
 	Component string `json:"component,optional"`
-	IsShow    bool   `json:"is_show,default=true"`
-	IsEnable  bool   `json:"is_enable,default=true"`
+	IsShow    bool   `json:"is_show"`
+	IsEnable  bool   `json:"is_enable"`
 	Order     int    `json:"order"`
 }
 
@@ -52,7 +52,7 @@ type SaveResourceReq struct {
 	Name      string `json:"name"`
 	Code      string `json:"code"`
 	Type      string `json:"type"`
-	ParentID  int    `json:"parent_id,default=0"`
+	ParentID  int    `json:"parent_id"`
 	Path      string `json:"path"`
 	Icon      string `json:"icon,optional"`
 	Component string `json:"component,optional"`

@@ -49,8 +49,8 @@ CREATE TABLE `resource`
     `icon`       varchar(512)    NOT NULL DEFAULT '' COMMENT '菜单图标',
     `component`  varchar(512)    NOT NULL DEFAULT '' COMMENT '组件路径',
     `path`       varchar(512)    NOT NULL DEFAULT '' COMMENT '路由地址',
-    `is_show`    BOOLEAN         NOT NULL DEFAULT TRUE COMMENT '是否显示',
-    `is_enable`  BOOLEAN         NOT NULL DEFAULT TRUE COMMENT '是否启用',
+    `is_show`    BOOLEAN         NOT NULL DEFAULT FALSE COMMENT '是否显示',
+    `is_enable`  BOOLEAN         NOT NULL DEFAULT FALSE COMMENT '是否启用',
     PRIMARY KEY (`id`)
 ) ENGINE = INNODB
   DEFAULT CHARSET = UTF8 COMMENT '资源表';
