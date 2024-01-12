@@ -32,7 +32,7 @@ type (
 		UpdatedAt  string `json:"updated_at"`  // 更新时间
 		Username   string `json:"username"`    // 账号
 		Email      string `json:"email"`       // 邮箱
-		TitlePhoto string `json:"title_photo"` // 头像
+		Avatar     string `json:"avatar"`      // 头像
 		Name       string `json:"name"`        // english name
 		Cname      string `json:"cname"`       // chinese name
 		CfID       string `json:"cf_id"`       // codeforces用户名

@@ -20,7 +20,7 @@ type UserInfo struct {
 	DeletedAt  gorm.DeletedAt `gorm:"column:deleted_at;type:datetime;comment:删除时间" json:"deleted_at"`                                       // 删除时间
 	Username   string         `gorm:"column:username;type:varchar(20);not null;uniqueIndex:username,priority:1;comment:账号" json:"username"` // 账号
 	Email      string         `gorm:"column:email;type:varchar(128);not null;comment:邮箱" json:"email"`                                      // 邮箱
-	TitlePhoto string         `gorm:"column:title_photo;type:varchar(512);not null;comment:头像" json:"title_photo"`                          // 头像
+	Avatar     string         `gorm:"column:avatar;type:varchar(512);not null;comment:头像" json:"avatar"`                                    // 头像
 	Name       string         `gorm:"column:name;type:varchar(32);not null;comment:english name" json:"name"`                               // english name
 	Cname      string         `gorm:"column:cname;type:varchar(32);not null;comment:chinese name" json:"cname"`                             // chinese name
 	CfID       string         `gorm:"column:cf_id;type:varchar(255);not null;comment:codeforces用户名" json:"cf_id"`                           // codeforces用户名
