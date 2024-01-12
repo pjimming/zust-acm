@@ -44,6 +44,14 @@ type (
 		ID int64 `json:"id"`
 	}
 
+	DeleteResourceReq {
+		ID int64 `path:"id"`
+	}
+
+	DeleteResourceResp {
+		DelectCount int `json:"delect_count"`
+	}
+
 	GetResourceTreeResp {
 		Resource []*Resource `json:"resource"`
 	}
@@ -77,9 +85,13 @@ service core-api {
 	@handler SaveResource
 	put /api/v1/resource/:id (SaveResourceReq) returns (SaveResourceResp)
 
-	@doc "获取资源树"
-	@handler GetResourceTree
+	@doc "获取菜单资源树"
+	@handler GetResourceMenuTree
 	get /api/v1/resource/menu/tree returns (GetResourceTreeResp)
+
+	@doc "删除资源"
+	@handler DeleteResource
+	delete /api/v1/resource/:id (DeleteResourceReq) returns (DeleteResourceResp)
 }
 
 @server(

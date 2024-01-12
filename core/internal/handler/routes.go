@@ -83,7 +83,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					Method:  http.MethodGet,
 					Path:    "/api/v1/resource/menu/tree",
-					Handler: resource.GetResourceTreeHandler(serverCtx),
+					Handler: resource.GetResourceMenuTreeHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/api/v1/resource/:id",
+					Handler: resource.DeleteResourceHandler(serverCtx),
 				},
 			}...,
 		),

@@ -65,6 +65,14 @@ type SaveResourceResp struct {
 	ID int64 `json:"id"`
 }
 
+type DeleteResourceReq struct {
+	ID int64 `path:"id"`
+}
+
+type DeleteResourceResp struct {
+	DelectCount int `json:"delect_count"`
+}
+
 type GetResourceTreeResp struct {
 	Resource []*Resource `json:"resource"`
 }
