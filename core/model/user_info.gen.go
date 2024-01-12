@@ -28,6 +28,8 @@ type UserInfo struct {
 	CfRank     string         `gorm:"column:cf_rank;type:varchar(32);not null;comment:codeforces rank" json:"cf_rank"`                      // codeforces rank
 	AtcID      string         `gorm:"column:atc_id;type:varchar(255);not null;comment:atcoder用户名" json:"atc_id"`                            // atcoder用户名
 	NowcoderID string         `gorm:"column:nowcoder_id;type:varchar(255);not null;comment:牛客网id" json:"nowcoder_id"`                       // 牛客网id
+	Gender     int32          `gorm:"column:gender;type:int(11);not null;comment:性别:0-未知;1-男;2-女" json:"gender"`                            // 性别:0-未知;1-男;2-女
+	IsEnable   bool           `gorm:"column:is_enable;type:tinyint(1);not null;comment:是否启用:0-禁用;1-启用" json:"is_enable"`                    // 是否启用:0-禁用;1-启用
 }
 
 // TableName UserInfo's table name

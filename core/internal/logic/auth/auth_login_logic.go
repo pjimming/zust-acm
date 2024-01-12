@@ -2,10 +2,10 @@ package auth
 
 import (
 	"context"
-	"github.com/pjimming/zustacm/core/constant"
 	"github.com/pjimming/zustacm/core/internal/svc"
 	"github.com/pjimming/zustacm/core/internal/types"
 	"github.com/pjimming/zustacm/core/model"
+	"github.com/pjimming/zustacm/core/utils/constant"
 	"github.com/pjimming/zustacm/core/utils/errorx"
 	"github.com/pjimming/zustacm/core/utils/userauth"
 

@@ -3,7 +3,7 @@ package userauth
 import (
 	"context"
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/pjimming/zustacm/core/constant"
+	"github.com/pjimming/zustacm/core/utils/constant"
 	"github.com/pjimming/zustacm/core/utils/errorx"
 	"golang.org/x/crypto/bcrypt"
 	"time"
@@ -13,6 +13,12 @@ const (
 	tokenCtxKey = "token"
 	userCtxKey  = "user"
 )
+
+type UserClaim struct {
+	Username string
+	Role     []string
+	jwt.RegisteredClaims
+}
 
 func EncryptPwd(plainPwd string) (string, error) {
 	cipherPwd, err := bcrypt.GenerateFromPassword([]byte(plainPwd), bcrypt.DefaultCost)

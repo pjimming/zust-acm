@@ -30,6 +30,37 @@ type AddUserResp struct {
 	ID int64 `json:"id"`
 }
 
+type GetUserPageReq struct {
+	Page     int    `form:"page,default=1"`
+	Size     int    `form:"size,default=10"`
+	Username string `form:"username,optional"`
+	Gender   int    `form:"gender,optional"`
+	IsEnable bool   `form:"is_enable,optional"`
+}
+
+type User struct {
+	ID         int64  `json:"id"`          // 序号
+	CreatedAt  string `json:"created_at"`  // 创建时间
+	UpdatedAt  string `json:"updated_at"`  // 更新时间
+	Username   string `json:"username"`    // 账号
+	Email      string `json:"email"`       // 邮箱
+	TitlePhoto string `json:"title_photo"` // 头像
+	Name       string `json:"name"`        // english name
+	Cname      string `json:"cname"`       // chinese name
+	CfID       string `json:"cf_id"`       // codeforces用户名
+	CfRating   int32  `json:"cf_rating"`   // codeforces rating
+	CfRank     string `json:"cf_rank"`     // codeforces rank
+	AtcID      string `json:"atc_id"`      // atcoder用户名
+	NowcoderID string `json:"nowcoder_id"` // 牛客网id
+	Gender     int32  `json:"gender"`      // 性别:0-未知;1-男;2-女
+	IsEnable   bool   `json:"is_enable"`   // 是否启用:0-禁用;1-启用
+}
+
+type GetUserPageResp struct {
+	Items []*User `json:"items"`
+	Total int64   `json:"total"`
+}
+
 type AddResourceReq struct {
 	Name      string `json:"name"`
 	Code      string `json:"code"`
