@@ -17,20 +17,21 @@ CREATE TABLE `user_auth`
 DROP TABLE IF EXISTS `user_info`;
 CREATE TABLE `user_info`
 (
-    `id`          bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '序号',
-    `created_at`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `updated_at`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `deleted_at`  datetime NULL DEFAULT NULL COMMENT '删除时间',
-    `username`    varchar(20)  NOT NULL UNIQUE COMMENT '账号',
-    `email`       varchar(128) NOT NULL DEFAULT '' COMMENT '邮箱',
-    `avatar`      varchar(512) NOT NULL DEFAULT '' COMMENT '头像',
-    `name`        varchar(32)  NOT NULL DEFAULT '' COMMENT 'english name',
-    `cname`       varchar(32)  NOT NULL DEFAULT '' COMMENT 'chinese name',
-    `cf_id`       varchar(255) NOT NULL DEFAULT '' COMMENT 'codeforces用户名',
-    `cf_rating`   int          NOT NULL DEFAULT 0 COMMENT 'codeforces rating',
-    `cf_rank`     varchar(32)  NOT NULL DEFAULT '' COMMENT 'codeforces rank',
-    `atc_id`      varchar(255) NOT NULL DEFAULT '' COMMENT 'atcoder用户名',
-    `nowcoder_id` varchar(255) NOT NULL DEFAULT '' COMMENT '牛客网id',
+    `id`              bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '序号',
+    `created_at`      datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at`      datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `deleted_at`      datetime NULL DEFAULT NULL COMMENT '删除时间',
+    `username`        varchar(20)  NOT NULL UNIQUE COMMENT '账号',
+    `email`           varchar(128) NOT NULL DEFAULT '' COMMENT '邮箱',
+    `avatar`          varchar(512) NOT NULL DEFAULT '' COMMENT '头像',
+    `name`            varchar(32)  NOT NULL DEFAULT '' COMMENT 'english name',
+    `cname`           varchar(32)  NOT NULL DEFAULT '' COMMENT 'chinese name',
+    `cf_id`           varchar(255) NOT NULL DEFAULT '' COMMENT 'codeforces用户名',
+    `cf_rating`       int          NOT NULL DEFAULT 0 COMMENT 'codeforces rating',
+    `cf_rank`         varchar(32)  NOT NULL DEFAULT '' COMMENT 'codeforces rank',
+    `atc_id`          varchar(255) NOT NULL DEFAULT '' COMMENT 'atcoder用户名',
+    `nowcoder_id`     varchar(255) NOT NULL DEFAULT '' COMMENT '牛客网id',
+    `enrollment_year` int          NOT NULL DEFAULT 0 COMMENT '入学年份',
     PRIMARY KEY (`id`)
 ) ENGINE = INNODB
   DEFAULT CHARSET = UTF8 COMMENT '用户信息表';

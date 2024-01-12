@@ -14,22 +14,23 @@ const TableNameUserInfo = "user_info"
 
 // UserInfo 用户信息表
 type UserInfo struct {
-	ID         int64          `gorm:"column:id;type:bigint(20) unsigned;primaryKey;autoIncrement:true;comment:序号" json:"id"`                // 序号
-	CreatedAt  time.Time      `gorm:"column:created_at;type:datetime;not null;default:CURRENT_TIMESTAMP;comment:创建时间" json:"created_at"`    // 创建时间
-	UpdatedAt  time.Time      `gorm:"column:updated_at;type:datetime;not null;default:CURRENT_TIMESTAMP;comment:更新时间" json:"updated_at"`    // 更新时间
-	DeletedAt  gorm.DeletedAt `gorm:"column:deleted_at;type:datetime;comment:删除时间" json:"deleted_at"`                                       // 删除时间
-	Username   string         `gorm:"column:username;type:varchar(20);not null;uniqueIndex:username,priority:1;comment:账号" json:"username"` // 账号
-	Email      string         `gorm:"column:email;type:varchar(128);not null;comment:邮箱" json:"email"`                                      // 邮箱
-	Avatar     string         `gorm:"column:avatar;type:varchar(512);not null;comment:头像" json:"avatar"`                                    // 头像
-	Name       string         `gorm:"column:name;type:varchar(32);not null;comment:english name" json:"name"`                               // english name
-	Cname      string         `gorm:"column:cname;type:varchar(32);not null;comment:chinese name" json:"cname"`                             // chinese name
-	CfID       string         `gorm:"column:cf_id;type:varchar(255);not null;comment:codeforces用户名" json:"cf_id"`                           // codeforces用户名
-	CfRating   int32          `gorm:"column:cf_rating;type:int(11);not null;comment:codeforces rating" json:"cf_rating"`                    // codeforces rating
-	CfRank     string         `gorm:"column:cf_rank;type:varchar(32);not null;comment:codeforces rank" json:"cf_rank"`                      // codeforces rank
-	AtcID      string         `gorm:"column:atc_id;type:varchar(255);not null;comment:atcoder用户名" json:"atc_id"`                            // atcoder用户名
-	NowcoderID string         `gorm:"column:nowcoder_id;type:varchar(255);not null;comment:牛客网id" json:"nowcoder_id"`                       // 牛客网id
-	Gender     int32          `gorm:"column:gender;type:int(11);not null;comment:性别:0-未知;1-男;2-女" json:"gender"`                            // 性别:0-未知;1-男;2-女
-	IsEnable   bool           `gorm:"column:is_enable;type:tinyint(1);not null;comment:是否启用:0-禁用;1-启用" json:"is_enable"`                    // 是否启用:0-禁用;1-启用
+	ID             int64          `gorm:"column:id;type:bigint(20) unsigned;primaryKey;autoIncrement:true;comment:序号" json:"id"`                // 序号
+	CreatedAt      time.Time      `gorm:"column:created_at;type:datetime;not null;default:CURRENT_TIMESTAMP;comment:创建时间" json:"created_at"`    // 创建时间
+	UpdatedAt      time.Time      `gorm:"column:updated_at;type:datetime;not null;default:CURRENT_TIMESTAMP;comment:更新时间" json:"updated_at"`    // 更新时间
+	DeletedAt      gorm.DeletedAt `gorm:"column:deleted_at;type:datetime;comment:删除时间" json:"deleted_at"`                                       // 删除时间
+	Username       string         `gorm:"column:username;type:varchar(20);not null;uniqueIndex:username,priority:1;comment:账号" json:"username"` // 账号
+	Email          string         `gorm:"column:email;type:varchar(128);not null;comment:邮箱" json:"email"`                                      // 邮箱
+	Avatar         string         `gorm:"column:avatar;type:varchar(512);not null;comment:头像" json:"avatar"`                                    // 头像
+	Name           string         `gorm:"column:name;type:varchar(32);not null;comment:english name" json:"name"`                               // english name
+	Cname          string         `gorm:"column:cname;type:varchar(32);not null;comment:chinese name" json:"cname"`                             // chinese name
+	CfID           string         `gorm:"column:cf_id;type:varchar(255);not null;comment:codeforces用户名" json:"cf_id"`                           // codeforces用户名
+	CfRating       int32          `gorm:"column:cf_rating;type:int(11);not null;comment:codeforces rating" json:"cf_rating"`                    // codeforces rating
+	CfRank         string         `gorm:"column:cf_rank;type:varchar(32);not null;comment:codeforces rank" json:"cf_rank"`                      // codeforces rank
+	AtcID          string         `gorm:"column:atc_id;type:varchar(255);not null;comment:atcoder用户名" json:"atc_id"`                            // atcoder用户名
+	NowcoderID     string         `gorm:"column:nowcoder_id;type:varchar(255);not null;comment:牛客网id" json:"nowcoder_id"`                       // 牛客网id
+	Gender         int32          `gorm:"column:gender;type:int(11);not null;comment:性别:0-未知;1-男;2-女" json:"gender"`                            // 性别:0-未知;1-男;2-女
+	IsEnable       bool           `gorm:"column:is_enable;type:tinyint(1);not null;comment:是否启用:0-禁用;1-启用" json:"is_enable"`                    // 是否启用:0-禁用;1-启用
+	EnrollmentYear int32          `gorm:"column:enrollment_year;type:int(11);not null;comment:入学年份" json:"enrollment_year"`                     // 入学年份
 }
 
 // TableName UserInfo's table name

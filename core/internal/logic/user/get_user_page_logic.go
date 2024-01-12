@@ -35,11 +35,18 @@ func (l *GetUserPageLogic) GetUserPage(req *types.GetUserPageReq) (resp *types.G
 		Total: 0,
 	}
 
-	users := make([]*model.UserInfo, 0)
-	if err = sqlbuilder.NewSQLBuilder(l.svcCtx.DB.Model(&model.UserInfo{})).
+	enrollmentYear := helper.ConvertStringToInt64Array(req.EnrollmentYear)
+
+	sb := sqlbuilder.NewSQLBuilder(l.svcCtx.DB.Model(&model.UserInfo{})).
 		AndStringLike("username", req.Username).
+		AndStringLike("cf_id", req.CfId).
+		AndStringLike("atc_id", req.AtcId).
+		AndStringInLike(req.Name, "name", "cname").
 		AndIntEQ("gender", req.Gender).
-		Offset((req.Page - 1) * req.Size).
+		AndIntIn("enrollment_year", enrollmentYear)
+
+	users := make([]*model.UserInfo, 0)
+	if err = sb.Offset((req.Page - 1) * req.Size).
 		Limit(req.Size).
 		ToSession().
 		Find(&users).
@@ -48,12 +55,7 @@ func (l *GetUserPageLogic) GetUserPage(req *types.GetUserPageReq) (resp *types.G
 		return nil, err
 	}
 
-	if err = sqlbuilder.NewSQLBuilder(l.svcCtx.DB.Model(&model.UserInfo{})).
-		AndStringLike("username", req.Username).
-		AndIntEQ("gender", req.Gender).
-		ToSession().
-		Count(&resp.Total).
-		Error; err != nil {
+	if err = sb.ToSession().Count(&resp.Total).Error; err != nil {
 		err = errorx.ErrorDB(err)
 		return nil, err
 	}
