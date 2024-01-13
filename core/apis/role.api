@@ -54,5 +54,5 @@ service core-api {
 
 	@doc "分页查询角色"
 	@handler GetRolePage
-	get /api/v1/role (GetRolePageReq) returns (GetRolePageResp)
+	get /api/v1/role/page (GetRolePageReq) returns (GetRolePageResp)
 }

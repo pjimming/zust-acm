@@ -67,7 +67,7 @@ func Error400(desc string) CodeError {
 }
 
 func Error400f(format string, a ...any) CodeError {
-	return NewCodeError(http.StatusBadRequest, http.StatusBadRequest, fmt.Sprintf(format, a))
+	return NewCodeError(http.StatusBadRequest, http.StatusBadRequest, fmt.Sprintf(format, a...))
 }
 
 func Error500(desc string) CodeError {
@@ -75,7 +75,7 @@ func Error500(desc string) CodeError {
 }
 
 func Error500f(format string, a ...any) CodeError {
-	return NewCodeError(500, 500, fmt.Sprintf(format, a))
+	return NewCodeError(500, 500, fmt.Sprintf(format, a...))
 }
 
 func ErrorDB(err error) CodeError {

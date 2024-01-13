@@ -45,17 +45,17 @@ func (l *GetUserPageLogic) GetUserPage(req *types.GetUserPageReq) (resp *types.G
 		AndIntEQ("gender", req.Gender).
 		AndIntIn("enrollment_year", enrollmentYear)
 
+	if err = sb.ToSession().Count(&resp.Total).Error; err != nil {
+		err = errorx.ErrorDB(err)
+		return nil, err
+	}
+
 	users := make([]*model.UserInfo, 0)
 	if err = sb.Offset((req.Page - 1) * req.Size).
 		Limit(req.Size).
 		ToSession().
 		Find(&users).
 		Error; err != nil {
-		err = errorx.ErrorDB(err)
-		return nil, err
-	}
-
-	if err = sb.ToSession().Count(&resp.Total).Error; err != nil {
 		err = errorx.ErrorDB(err)
 		return nil, err
 	}
