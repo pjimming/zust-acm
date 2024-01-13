@@ -1,0 +1,31 @@
+syntax = "v1"
+
+info(
+	title: "role"
+	desc: "role apis"
+	author: "panjiangming"
+	email: "panjm2001@126.com"
+	version: "v1"
+)
+
+type (
+	AddRoleReq {
+		Code     string `json:"code"`
+		Name     string `json:"name"`
+		IsEnable bool   `json:"is_enable"`
+	}
+
+	AddRoleResp {
+		ID int64 `json:"id"`
+	}
+)
+
+@server(
+	group: role
+	middleware: JwtAuth
+)
+service core-api {
+	@doc "新增角色"
+	@handler AddRole
+	post /api/v1/role (AddRoleReq) returns (AddRoleResp)
+}

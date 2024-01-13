@@ -13,4 +13,5 @@ import (
 	"apis/auth.api"
 	"apis/user.api"
 	"apis/permission.api"
+	"apis/role.api"
 )

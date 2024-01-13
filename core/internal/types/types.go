@@ -126,3 +126,13 @@ type Resource struct {
 	Order     int         `json:"order"`
 	Children  []*Resource `json:"children"`
 }
+
+type AddRoleReq struct {
+	Code     string `json:"code"`
+	Name     string `json:"name"`
+	IsEnable bool   `json:"is_enable"`
+}
+
+type AddRoleResp struct {
+	ID int64 `json:"id"`
+}
