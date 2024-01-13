@@ -65,6 +65,34 @@ func (l *GetUserPageLogic) GetUserPage(req *types.GetUserPageReq) (resp *types.G
 		_ = copier.Copy(tmp, user)
 		tmp.CreatedAt = helper.GetLocalDateTime(user.CreatedAt)
 		tmp.UpdatedAt = helper.GetLocalDateTime(user.UpdatedAt)
+		tmp.Roles = make([]*types.UserRole, 0)
+
+		userRoleRels := make([]*model.UserRoleRel, 0)
+		if err = l.svcCtx.DB.Model(&model.UserRoleRel{}).
+			Select("role_id").
+			Where("user_id = ?", user.ID).
+			Find(&userRoleRels).
+			Error; err != nil {
+			err = errorx.ErrorDB(err)
+			return nil, err
+		}
+
+		roleIds := make([]int64, 0)
+		for _, urr := range userRoleRels {
+			roleIds = append(roleIds, urr.RoleID)
+		}
+
+		roles := make([]*model.Role, 0)
+		if err = l.svcCtx.DB.Model(&model.Role{}).
+			Where("id in (?)", roleIds).
+			Find(&roles).
+			Error; err != nil {
+			err = errorx.ErrorDB(err)
+			return nil, err
+		}
+
+		_ = copier.Copy(&tmp.Roles, roles)
+
 		resp.Items = append(resp.Items, tmp)
 	}
 

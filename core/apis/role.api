@@ -30,6 +30,16 @@ type (
 		ResourceIds []int64 `json:"resource_ids"` // 权限
 	}
 
+	GetRoleAllReq {
+		Code     string `form:"code,optional"`
+		Name     string `form:"name,optional"`
+		IsEnable bool   `form:"is_enable,default=false"`
+	}
+
+	GetRoleAllResp {
+		Items []*Role `json:"items"`
+	}
+
 	GetRolePageReq {
 		Page int    `form:"page,default=1"`
 		Size int    `form:"size,default=10"`
@@ -55,4 +65,8 @@ service core-api {
 	@doc "分页查询角色"
 	@handler GetRolePage
 	get /api/v1/role/page (GetRolePageReq) returns (GetRolePageResp)
+
+	@doc "查询角色"
+	@handler GetRoleAll
+	get /api/v1/role/all (GetRoleAllReq) returns (GetRoleAllResp)
 }
