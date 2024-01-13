@@ -128,11 +128,34 @@ type Resource struct {
 }
 
 type AddRoleReq struct {
-	Code     string `json:"code"`
-	Name     string `json:"name"`
-	IsEnable bool   `json:"is_enable"`
+	Code        string  `json:"code"`
+	Name        string  `json:"name"`
+	IsEnable    bool    `json:"is_enable"`
+	ResourceIds []int64 `json:"resource_ids"`
 }
 
 type AddRoleResp struct {
 	ID int64 `json:"id"`
+}
+
+type Role struct {
+	ID          int64   `json:"id"`           // 序号
+	CreatedAt   string  `json:"created_at"`   // 创建时间
+	UpdatedAt   string  `json:"updated_at"`   // 更新时间
+	Code        string  `json:"code"`         // 角色编码
+	Name        string  `json:"name"`         // 角色名
+	IsEnable    bool    `json:"is_enable"`    // 启用状态:0-禁用;1-启用
+	ResourceIds []int64 `json:"resource_ids"` // 权限
+}
+
+type GetRolePageReq struct {
+	Page int    `form:"page,default=1"`
+	Size int    `form:"size,default=10"`
+	Code string `form:"code,optional"`
+	Name string `form:"name,optional"`
+}
+
+type GetRolePageResp struct {
+	Items []*Role `json:"items"`
+	Total int64   `json:"total"`
 }

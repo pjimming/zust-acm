@@ -122,6 +122,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/api/v1/role",
 					Handler: role.AddRoleHandler(serverCtx),
 				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/api/v1/role",
+					Handler: role.GetRolePageHandler(serverCtx),
+				},
 			}...,
 		),
 	)

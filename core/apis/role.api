@@ -10,13 +10,36 @@ info(
 
 type (
 	AddRoleReq {
-		Code     string `json:"code"`
-		Name     string `json:"name"`
-		IsEnable bool   `json:"is_enable"`
+		Code        string  `json:"code"`
+		Name        string  `json:"name"`
+		IsEnable    bool    `json:"is_enable"`
+		ResourceIds []int64 `json:"resource_ids"`
 	}
 
 	AddRoleResp {
 		ID int64 `json:"id"`
+	}
+
+	Role {
+		ID          int64   `json:"id"`           // 序号
+		CreatedAt   string  `json:"created_at"`   // 创建时间
+		UpdatedAt   string  `json:"updated_at"`   // 更新时间
+		Code        string  `json:"code"`         // 角色编码
+		Name        string  `json:"name"`         // 角色名
+		IsEnable    bool    `json:"is_enable"`    // 启用状态:0-禁用;1-启用
+		ResourceIds []int64 `json:"resource_ids"` // 权限
+	}
+
+	GetRolePageReq {
+		Page int    `form:"page,default=1"`
+		Size int    `form:"size,default=10"`
+		Code string `form:"code,optional"`
+		Name string `form:"name,optional"`
+	}
+
+	GetRolePageResp {
+		Items []*Role `json:"items"`
+		Total int64   `json:"total"`
 	}
 )
 
@@ -28,4 +51,8 @@ service core-api {
 	@doc "新增角色"
 	@handler AddRole
 	post /api/v1/role (AddRoleReq) returns (AddRoleResp)
+
+	@doc "分页查询角色"
+	@handler GetRolePage
+	get /api/v1/role (GetRolePageReq) returns (GetRolePageResp)
 }
