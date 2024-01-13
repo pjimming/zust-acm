@@ -59,6 +59,22 @@ func (l *GetRolePageLogic) GetRolePage(req *types.GetRolePageReq) (resp *types.G
 		_ = copier.Copy(tmp, role)
 		tmp.CreatedAt = helper.GetLocalDateTime(role.CreatedAt)
 		tmp.UpdatedAt = helper.GetLocalDateTime(role.UpdatedAt)
+		tmp.ResourceIds = make([]int64, 0)
+
+		roleResourceRels := make([]*model.RoleResourceRel, 0)
+		if err = l.svcCtx.DB.Model(&model.RoleResourceRel{}).
+			Select("resource_id").
+			Where("role_id = ?", role.ID).
+			Find(&roleResourceRels).
+			Error; err != nil {
+			err = errorx.ErrorDB(err)
+			return nil, err
+		}
+
+		for _, rrr := range roleResourceRels {
+			tmp.ResourceIds = append(tmp.ResourceIds, rrr.ResourceID)
+		}
+
 		resp.Items = append(resp.Items, tmp)
 	}
 
