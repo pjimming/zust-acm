@@ -56,3 +56,43 @@ CREATE TABLE `resource`
     PRIMARY KEY (`id`)
 ) ENGINE = INNODB
   DEFAULT CHARSET = UTF8 COMMENT '资源表';
+
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE `role`
+(
+    `id`         bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '序号',
+    `created_at` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `deleted_at` datetime NULL DEFAULT NULL COMMENT '删除时间',
+    `code`       varchar(255) NOT NULL DEFAULT '' UNIQUE COMMENT '角色编码',
+    `name`       varchar(255) NOT NULL DEFAULT '' UNIQUE COMMENT '角色名',
+    `is_enable`  bool         NOT NULL DEFAULT FALSE COMMENT '启用状态:0-禁用;1-启用',
+    PRIMARY KEY (`id`)
+) ENGINE = INNODB
+  DEFAULT CHARSET = UTF8 COMMENT '角色表';
+
+DROP TABLE IF EXISTS `role_resource_rel`;
+CREATE TABLE `role_resource_rel`
+(
+    `id`          bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '序号',
+    `created_at`  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at`  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `deleted_at`  datetime NULL DEFAULT NULL COMMENT '删除时间',
+    `role_id`     bigint unsigned NOT NULL DEFAULT 0 COMMENT '角色id',
+    `resource_id` bigint unsigned NOT NULL DEFAULT 0 COMMENT '资源id',
+    PRIMARY KEY (`id`)
+) ENGINE = INNODB
+  DEFAULT CHARSET = UTF8 COMMENT '角色-资源表';
+
+DROP TABLE IF EXISTS `user_role_rel`;
+CREATE TABLE `user_role_rel`
+(
+    `id`         bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '序号',
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `deleted_at` datetime NULL DEFAULT NULL COMMENT '删除时间',
+    `user_id`    bigint unsigned NOT NULL DEFAULT 0 COMMENT '用户id',
+    `role_id`    bigint unsigned NOT NULL DEFAULT 0 COMMENT '角色id',
+    PRIMARY KEY (`id`)
+) ENGINE = INNODB
+  DEFAULT CHARSET = UTF8 COMMENT '用户-角色表';

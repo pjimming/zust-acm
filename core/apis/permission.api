@@ -8,6 +8,7 @@ info(
 	version: "v1"
 )
 
+// resource
 type (
 	AddResourceReq {
 		Name      string `json:"name"`
@@ -94,6 +95,7 @@ service core-api {
 	delete /api/v1/resource/:id (DeleteResourceReq) returns (DeleteResourceResp)
 }
 
+// permission
 @server(
 	group: permission
 	middleware: JwtAuth
@@ -102,4 +104,149 @@ service core-api {
 	@doc "获取角色权限树"
 	@handler GetRolePermissionTree
 	get /api/v1/role/permissions/tree  returns (GetResourceTreeResp)
+}
+
+// user
+
+type (
+	AddUserReq {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+
+	AddUserResp {
+		ID int64 `json:"id"`
+	}
+
+	GetUserPageReq {
+		Page           int    `form:"page,default=1"`
+		Size           int    `form:"size,default=10"`
+		Username       string `form:"username,optional"` // 学号
+		Name           string `form:"name,optional"`     // 姓名
+		Gender         int    `form:"gender,optional"`
+		CfId           string `form:"cf_id,optional"`
+		AtcId          string `form:"atc_id,optional"`
+		EnrollmentYear string `form:"enrollment_year,optional"`
+	}
+
+	User {
+		ID             int64       `json:"id"`              // 序号
+		CreatedAt      string      `json:"created_at"`      // 创建时间
+		UpdatedAt      string      `json:"updated_at"`      // 更新时间
+		Username       string      `json:"username"`        // 账号
+		Email          string      `json:"email"`           // 邮箱
+		Avatar         string      `json:"avatar"`          // 头像
+		Name           string      `json:"name"`            // english name
+		Cname          string      `json:"cname"`           // chinese name
+		CfID           string      `json:"cf_id"`           // codeforces用户名
+		CfRating       int32       `json:"cf_rating"`       // codeforces rating
+		CfRank         string      `json:"cf_rank"`         // codeforces rank
+		AtcID          string      `json:"atc_id"`          // atcoder用户名
+		NowcoderID     string      `json:"nowcoder_id"`     // 牛客网id
+		Gender         int32       `json:"gender"`          // 性别:0-未知;1-男;2-女
+		IsEnable       bool        `json:"is_enable"`       // 是否启用:0-禁用;1-启用
+		EnrollmentYear int32       `json:"enrollment_year"` // 入学年份
+		Roles          []*UserRole `json:"roles"`           // 角色
+	}
+
+	UserRole {
+		ID       int64  `json:"id"`
+		Code     string `json:"code"`
+		Name     string `json:"name"`
+		IsEnable bool   `json:"is_enable"`
+	}
+
+	GetUserPageResp {
+		Items []*User `json:"items"`
+		Total int64   `json:"total"`
+	}
+
+	AssignRolesReq {
+		ID       int64   `json:"id"`
+		RoleIds  []int64 `json:"role_ids"`
+		Username string  `json:"username"`
+	}
+)
+
+@server(
+	group: user
+	middleware: JwtAuth
+)
+service core-api {
+	@doc "新增用户"
+	@handler AddUser
+	post /api/v1/user (AddUserReq) returns (AddUserResp)
+
+	@doc "分页查询用户"
+	@handler GetUserPage
+	get /api/v1/user (GetUserPageReq) returns (GetUserPageResp)
+
+	@doc "给用户分配角色"
+	@handler AssignRoles
+	put /api/v1/assign/roles (AssignRolesReq)
+}
+
+// role
+
+type (
+	AddRoleReq {
+		Code        string  `json:"code"`
+		Name        string  `json:"name"`
+		IsEnable    bool    `json:"is_enable"`
+		ResourceIds []int64 `json:"resource_ids"`
+	}
+
+	AddRoleResp {
+		ID int64 `json:"id"`
+	}
+
+	Role {
+		ID          int64   `json:"id"`           // 序号
+		CreatedAt   string  `json:"created_at"`   // 创建时间
+		UpdatedAt   string  `json:"updated_at"`   // 更新时间
+		Code        string  `json:"code"`         // 角色编码
+		Name        string  `json:"name"`         // 角色名
+		IsEnable    bool    `json:"is_enable"`    // 启用状态:0-禁用;1-启用
+		ResourceIds []int64 `json:"resource_ids"` // 权限
+	}
+
+	GetRoleAllReq {
+		Code     string `form:"code,optional"`
+		Name     string `form:"name,optional"`
+		IsEnable bool   `form:"is_enable,default=false"`
+	}
+
+	GetRoleAllResp {
+		Items []*Role `json:"items"`
+	}
+
+	GetRolePageReq {
+		Page int    `form:"page,default=1"`
+		Size int    `form:"size,default=10"`
+		Code string `form:"code,optional"`
+		Name string `form:"name,optional"`
+	}
+
+	GetRolePageResp {
+		Items []*Role `json:"items"`
+		Total int64   `json:"total"`
+	}
+)
+
+@server(
+	group: role
+	middleware: JwtAuth
+)
+service core-api {
+	@doc "新增角色"
+	@handler AddRole
+	post /api/v1/role (AddRoleReq) returns (AddRoleResp)
+
+	@doc "分页查询角色"
+	@handler GetRolePage
+	get /api/v1/role/page (GetRolePageReq) returns (GetRolePageResp)
+
+	@doc "查询角色"
+	@handler GetRoleAll
+	get /api/v1/role/all (GetRoleAllReq) returns (GetRoleAllResp)
 }

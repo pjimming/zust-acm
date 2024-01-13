@@ -60,24 +60,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Route{
 				{
 					Method:  http.MethodPost,
-					Path:    "/api/v1/user",
-					Handler: user.AddUserHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodGet,
-					Path:    "/api/v1/user",
-					Handler: user.GetUserPageHandler(serverCtx),
-				},
-			}...,
-		),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtAuth},
-			[]rest.Route{
-				{
-					Method:  http.MethodPost,
 					Path:    "/api/v1/resource",
 					Handler: resource.AddResourceHandler(serverCtx),
 				},
@@ -108,6 +90,29 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodGet,
 					Path:    "/api/v1/role/permissions/tree",
 					Handler: permission.GetRolePermissionTreeHandler(serverCtx),
+				},
+			}...,
+		),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.JwtAuth},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/api/v1/user",
+					Handler: user.AddUserHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/api/v1/user",
+					Handler: user.GetUserPageHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/api/v1/assign/roles",
+					Handler: user.AssignRolesHandler(serverCtx),
 				},
 			}...,
 		),
