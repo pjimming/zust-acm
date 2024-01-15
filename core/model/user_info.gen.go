@@ -31,6 +31,7 @@ type UserInfo struct {
 	Gender         int32          `gorm:"column:gender;type:int(11);not null;comment:性别:0-未知;1-男;2-女" json:"gender"`                            // 性别:0-未知;1-男;2-女
 	IsEnable       bool           `gorm:"column:is_enable;type:tinyint(1);not null;comment:是否启用:0-禁用;1-启用" json:"is_enable"`                    // 是否启用:0-禁用;1-启用
 	EnrollmentYear int32          `gorm:"column:enrollment_year;type:int(11);not null;comment:入学年份" json:"enrollment_year"`                     // 入学年份
+	RoleID         int64          `gorm:"column:role_id;type:bigint(20) unsigned;not null;comment:所属角色" json:"role_id"`                         // 所属角色
 }
 
 // TableName UserInfo's table name

@@ -50,33 +50,20 @@ func (l *GetUserDetailLogic) GetUserDetail() (resp *types.GetUserDetailResp, err
 	resp.CreatedAt = helper.GetLocalDateTime(userInfo.CreatedAt)
 	resp.UpdatedAt = helper.GetLocalDateTime(userInfo.UpdatedAt)
 
-	resp.Roles = make([]*types.UserRole, 0)
+	resp.Role = &types.Role{}
 
-	userRoleRels := make([]*model.UserRoleRel, 0)
-	if err = l.svcCtx.DB.Model(&model.UserRoleRel{}).
-		Select("role_id").
-		Where("user_id = ?", userInfo.ID).
-		Find(&userRoleRels).
-		Error; err != nil {
-		err = errorx.ErrorDB(err)
-		return nil, err
-	}
-
-	roleIds := make([]int64, 0)
-	for _, urr := range userRoleRels {
-		roleIds = append(roleIds, urr.RoleID)
-	}
-
-	roles := make([]*model.Role, 0)
+	role := &model.Role{}
 	if err = l.svcCtx.DB.Model(&model.Role{}).
-		Where("id in (?)", roleIds).
-		Find(&roles).
+		Where("id = ?", userInfo.ID).
+		First(role).
 		Error; err != nil {
 		err = errorx.ErrorDB(err)
 		return nil, err
 	}
 
-	_ = copier.Copy(&resp.Roles, roles)
+	_ = copier.Copy(resp.Role, role)
+	resp.Role.CreatedAt = helper.GetLocalDateTime(role.CreatedAt)
+	resp.Role.UpdatedAt = helper.GetLocalDateTime(role.UpdatedAt)
 
 	return
 }
