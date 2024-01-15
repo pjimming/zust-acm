@@ -30,7 +30,6 @@ func NewGetRolePermissionTreeLogic(ctx context.Context, svcCtx *svc.ServiceConte
 }
 
 func (l *GetRolePermissionTreeLogic) GetRolePermissionTree() (resp *types.GetResourceTreeResp, err error) {
-	// todo: complete role
 
 	uc, ok := userauth.GetUserFromCtx(l.ctx)
 	if !ok {

@@ -93,14 +93,14 @@ type AddUserResp struct {
 }
 
 type GetUserPageReq struct {
-	Page           int    `form:"page,default=1"`
-	Size           int    `form:"size,default=10"`
-	Username       string `form:"username,optional"` // 学号
-	Name           string `form:"name,optional"`     // 姓名
-	Gender         int    `form:"gender,optional"`
-	CfId           string `form:"cf_id,optional"`
-	AtcId          string `form:"atc_id,optional"`
-	EnrollmentYear string `form:"enrollment_year,optional"`
+	Page           int     `form:"page,default=1"`
+	Size           int     `form:"size,default=10"`
+	Username       string  `form:"username,optional"` // 学号
+	Name           string  `form:"name,optional"`     // 姓名
+	Gender         int     `form:"gender,optional"`
+	CfId           string  `form:"cf_id,optional"`
+	AtcId          string  `form:"atc_id,optional"`
+	EnrollmentYear []int64 `form:"enrollment_year[],optional"`
 }
 
 type User struct {

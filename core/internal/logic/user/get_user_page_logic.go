@@ -35,15 +35,13 @@ func (l *GetUserPageLogic) GetUserPage(req *types.GetUserPageReq) (resp *types.G
 		Total: 0,
 	}
 
-	enrollmentYear := helper.ConvertStringToInt64Array(req.EnrollmentYear)
-
 	sb := sqlbuilder.NewSQLBuilder(l.svcCtx.DB.Model(&model.UserInfo{})).
 		AndStringLike("username", req.Username).
 		AndStringLike("cf_id", req.CfId).
 		AndStringLike("atc_id", req.AtcId).
 		AndStringInLike(req.Name, "name", "cname").
 		AndIntEQ("gender", req.Gender).
-		AndIntIn("enrollment_year", enrollmentYear)
+		AndIntIn("enrollment_year", req.EnrollmentYear)
 
 	if err = sb.ToSession().Count(&resp.Total).Error; err != nil {
 		err = errorx.ErrorDB(err)
