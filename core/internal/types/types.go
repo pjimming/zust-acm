@@ -24,13 +24,13 @@ type AuthLogoutReq struct {
 type AddResourceReq struct {
 	Name      string `json:"name"`
 	Code      string `json:"code"`
-	Type      string `json:"type"`
-	ParentID  int    `json:"parent_id"`
-	Path      string `json:"path"`
+	Type      string `json:"type,optional"`
+	ParentID  int    `json:"parent_id,optional"`
+	Path      string `json:"path,optional"`
 	Icon      string `json:"icon,optional"`
 	Component string `json:"component,optional"`
-	IsShow    bool   `json:"is_show"`
-	IsEnable  bool   `json:"is_enable"`
+	IsShow    bool   `json:"is_show,optional"`
+	IsEnable  bool   `json:"is_enable,optional"`
 	Order     int    `json:"order"`
 }
 
@@ -42,13 +42,13 @@ type SaveResourceReq struct {
 	ID        int64  `path:"id"`
 	Name      string `json:"name"`
 	Code      string `json:"code"`
-	Type      string `json:"type"`
-	ParentID  int    `json:"parent_id"`
-	Path      string `json:"path"`
+	Type      string `json:"type,optional"`
+	ParentID  int    `json:"parent_id,optional"`
+	Path      string `json:"path,optional"`
 	Icon      string `json:"icon,optional"`
 	Component string `json:"component,optional"`
-	IsShow    bool   `json:"is_show"`
-	IsEnable  bool   `json:"is_enable"`
+	IsShow    bool   `json:"is_show,optional"`
+	IsEnable  bool   `json:"is_enable,optional"`
 	Order     int    `json:"order"`
 }
 
