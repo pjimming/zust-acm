@@ -6,6 +6,7 @@ import (
 
 	auth "github.com/pjimming/zustacm/core/internal/handler/auth"
 	basic "github.com/pjimming/zustacm/core/internal/handler/basic"
+	codeforces "github.com/pjimming/zustacm/core/internal/handler/codeforces"
 	permission "github.com/pjimming/zustacm/core/internal/handler/permission"
 	resource "github.com/pjimming/zustacm/core/internal/handler/resource"
 	role "github.com/pjimming/zustacm/core/internal/handler/role"
@@ -141,6 +142,19 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodGet,
 					Path:    "/api/v1/role/all",
 					Handler: role.GetRoleAllHandler(serverCtx),
+				},
+			}...,
+		),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.JwtAuth},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/api/v1/codeforces/sync/user/:id",
+					Handler: codeforces.SyncUserCfHandler(serverCtx),
 				},
 			}...,
 		),

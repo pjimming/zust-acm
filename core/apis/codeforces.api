@@ -1,0 +1,25 @@
+syntax = "v1"
+
+info(
+	title: "codeforces"
+	desc: "codeforces apis"
+	author: "panjiangming"
+	email: "panjm2001@126.com"
+	version: "v1"
+)
+
+type (
+	SyncUserCfReq {
+		ID int64 `path:"id"`
+	}
+)
+
+@server(
+	group: codeforces
+	middleware: JwtAuth
+)
+service core-api {
+	@doc "同步cf信息"
+	@handler SyncUserCf
+	post /api/v1/codeforces/sync/user/:id (SyncUserCfReq)
+}

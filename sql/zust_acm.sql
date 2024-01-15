@@ -32,6 +32,7 @@ CREATE TABLE `user_info`
     `atc_id`          varchar(255) NOT NULL DEFAULT '' COMMENT 'atcoder用户名',
     `nowcoder_id`     varchar(255) NOT NULL DEFAULT '' COMMENT '牛客网id',
     `enrollment_year` int          NOT NULL DEFAULT 0 COMMENT '入学年份',
+    `role_id`         bigint unsigned NOT NULL DEFAULT 0 COMMENT '所属角色',
     PRIMARY KEY (`id`)
 ) ENGINE = INNODB
   DEFAULT CHARSET = UTF8 COMMENT '用户信息表';
@@ -84,15 +85,3 @@ CREATE TABLE `role_resource_rel`
 ) ENGINE = INNODB
   DEFAULT CHARSET = UTF8 COMMENT '角色-资源表';
 
-DROP TABLE IF EXISTS `user_role_rel`;
-CREATE TABLE `user_role_rel`
-(
-    `id`         bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '序号',
-    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `deleted_at` datetime NULL DEFAULT NULL COMMENT '删除时间',
-    `user_id`    bigint unsigned NOT NULL DEFAULT 0 COMMENT '用户id',
-    `role_id`    bigint unsigned NOT NULL DEFAULT 0 COMMENT '角色id',
-    PRIMARY KEY (`id`)
-) ENGINE = INNODB
-  DEFAULT CHARSET = UTF8 COMMENT '用户-角色表';

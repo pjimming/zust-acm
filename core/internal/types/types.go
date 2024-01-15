@@ -203,3 +203,7 @@ type GetRolePageResp struct {
 	Items []*Role `json:"items"`
 	Total int64   `json:"total"`
 }
+
+type SyncUserCfReq struct {
+	ID int64 `path:"id"`
+}

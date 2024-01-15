@@ -2,8 +2,10 @@ package svc
 
 import (
 	"context"
+	"github.com/go-resty/resty/v2"
 	"github.com/pjimming/zustacm/core/internal/config"
 	"github.com/pjimming/zustacm/core/internal/middleware"
+	"github.com/pjimming/zustacm/core/utils/cfhelper"
 	"github.com/redis/go-redis/v9"
 	"github.com/zeromicro/go-zero/rest"
 
@@ -18,6 +20,8 @@ type ServiceContext struct {
 	JwtAuth     rest.Middleware
 	DB          *gorm.DB
 	Redis       *redis.Client
+	Resty       *resty.Client
+	CfHelper    *cfhelper.CfHelper
 	AuthCaptcha *base64Captcha.Captcha
 }
 
@@ -36,18 +40,24 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Password: c.Redis.Password,
 	})
 
+	// resty client
+	restyClient := resty.New().
+		SetHeader("Content-Type", "application/json")
+
 	if err = rdc.Ping(context.Background()).Err(); err != nil {
 		panic(err)
 	}
 
 	return &ServiceContext{
-		Config:  c,
-		DB:      db,
-		JwtAuth: middleware.JwtAuth(rdc),
+		Config:   c,
+		DB:       db,
+		Redis:    rdc,
+		JwtAuth:  middleware.JwtAuth(rdc),
+		Resty:    restyClient,
+		CfHelper: cfhelper.NewCfHelper(restyClient),
 		AuthCaptcha: base64Captcha.NewCaptcha(
 			base64Captcha.NewDriverDigit(40, 80, 4, 0.4, 15),
 			base64Captcha.DefaultMemStore,
 		),
-		Redis: rdc,
 	}
 }
