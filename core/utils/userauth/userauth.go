@@ -81,3 +81,11 @@ func GetTokenFromCtx(ctx context.Context) (string, bool) {
 	}
 	return token, true
 }
+
+func GetUserFromCtx(ctx context.Context) (*UserClaim, bool) {
+	user, ok := ctx.Value(userCtxKey).(*UserClaim)
+	if !ok {
+		return &UserClaim{}, false
+	}
+	return user, true
+}
