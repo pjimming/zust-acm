@@ -69,7 +69,7 @@ func (l *GetUserPageLogic) GetUserPage(req *types.GetUserPageReq) (resp *types.G
 
 		role := &model.Role{}
 		if err = l.svcCtx.DB.Model(&model.Role{}).
-			Where("id = ?", user.ID).
+			Where("id = ?", user.RoleID).
 			First(&role).
 			Error; err != nil {
 			err = errorx.ErrorDB(err)

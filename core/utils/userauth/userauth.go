@@ -16,6 +16,7 @@ const (
 
 type UserClaim struct {
 	Username string
+	IsAdmin  bool
 	Role     []string
 	jwt.RegisteredClaims
 }
@@ -33,14 +34,11 @@ func CheckPwd(dbPwd, inputPwd string) error {
 	return bcrypt.CompareHashAndPassword([]byte(dbPwd), []byte(inputPwd))
 }
 
-func GenToken(username string) (string, error) {
-	uc := &UserClaim{
-		Username: username,
-		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(constant.TokenExpire)),
-			NotBefore: jwt.NewNumericDate(time.Now()),
-			IssuedAt:  jwt.NewNumericDate(time.Now()),
-		},
+func GenToken(uc *UserClaim) (string, error) {
+	uc.RegisteredClaims = jwt.RegisteredClaims{
+		ExpiresAt: jwt.NewNumericDate(time.Now().Add(constant.TokenExpire)),
+		NotBefore: jwt.NewNumericDate(time.Now()),
+		IssuedAt:  jwt.NewNumericDate(time.Now()),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, uc)
 	return token.SignedString([]byte(constant.JwtKey))

@@ -54,7 +54,7 @@ func (l *GetUserDetailLogic) GetUserDetail() (resp *types.GetUserDetailResp, err
 
 	role := &model.Role{}
 	if err = l.svcCtx.DB.Model(&model.Role{}).
-		Where("id = ?", userInfo.ID).
+		Where("id = ?", userInfo.RoleID).
 		First(role).
 		Error; err != nil {
 		err = errorx.ErrorDB(err)

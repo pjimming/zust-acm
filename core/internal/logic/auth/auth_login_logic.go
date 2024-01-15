@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"github.com/pjimming/zustacm/core/dao"
 	"github.com/pjimming/zustacm/core/internal/svc"
 	"github.com/pjimming/zustacm/core/internal/types"
 	"github.com/pjimming/zustacm/core/model"
@@ -45,7 +46,27 @@ func (l *AuthLoginLogic) AuthLogin(req *types.AuthLoginReq) (resp *types.AuthLog
 		return nil, err
 	}
 
-	token, err := userauth.GenToken(req.Username)
+	userInfo, err := dao.UserInfo.FindByUsername(l.svcCtx.DB, req.Username)
+	if err != nil {
+		err = errorx.ErrorDB(err)
+		return nil, err
+	}
+
+	role, err := dao.Role.FindOne(l.svcCtx.DB, userInfo.RoleID)
+	if err != nil {
+		err = errorx.ErrorDB(err)
+		return nil, err
+	}
+
+	isAdmin := false
+	if role.Code == constant.SuperAdmin {
+		isAdmin = true
+	}
+
+	token, err := userauth.GenToken(&userauth.UserClaim{
+		Username: req.Username,
+		IsAdmin:  isAdmin,
+	})
 	if err != nil {
 		err = errorx.Error500f("gen token fail, %v", err)
 		return nil, err

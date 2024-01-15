@@ -156,9 +156,9 @@ type GetUserPageResp struct {
 }
 
 type AssignRolesReq struct {
-	ID       int64   `json:"id"`
-	RoleIds  []int64 `json:"role_ids"`
-	Username string  `json:"username"`
+	ID       int64  `json:"id"`
+	RoleId   int64  `json:"role_id"`
+	Username string `json:"username"`
 }
 
 type AddRoleReq struct {
