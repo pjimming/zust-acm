@@ -22,4 +22,8 @@ service core-api {
 	@doc "同步cf信息"
 	@handler SyncUserCf
 	post /api/v1/codeforces/sync/user/:id (SyncUserCfReq)
+
+	@doc "同步所有cf信息"
+	@handler SyncCfAll
+	post /api/v1/codeforces/sync/all
 }

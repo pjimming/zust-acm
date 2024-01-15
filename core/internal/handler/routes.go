@@ -156,6 +156,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/api/v1/codeforces/sync/user/:id",
 					Handler: codeforces.SyncUserCfHandler(serverCtx),
 				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/api/v1/codeforces/sync/all",
+					Handler: codeforces.SyncCfAllHandler(serverCtx),
+				},
 			}...,
 		),
 	)
