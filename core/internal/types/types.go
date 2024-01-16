@@ -209,22 +209,24 @@ type SyncUserCfReq struct {
 }
 
 type Competition struct {
-	ID         int64  `json:"id"`          // 序号
-	CreatedAt  int64  `json:"created_at"`  // 创建时间
-	UpdatedAt  int64  `json:"updated_at"`  // 更新时间
-	Name       string `json:"name"`        // 比赛名称
-	Type       string `json:"type"`        // 比赛类型
-	SeasonYear int32  `json:"season_year"` // 赛季年
-	StartTime  int64  `json:"start_time"`  // 开始时间
-	EndTime    int64  `json:"end_time"`    // 结束时间
+	ID              int64  `json:"id"`               // 序号
+	CreatedAt       int64  `json:"created_at"`       // 创建时间
+	UpdatedAt       int64  `json:"updated_at"`       // 更新时间
+	Name            string `json:"name"`             // 比赛名称
+	Type            string `json:"type"`             // 比赛类型
+	SeasonYear      int32  `json:"season_year"`      // 赛季年
+	StartTime       int64  `json:"start_time"`       // 开始时间
+	EndTime         int64  `json:"end_time"`         // 结束时间
+	OfficialWebsite string `json:"official_website"` // 比赛官网
 }
 
 type AddCompetitionReq struct {
-	Name       string `json:"name"`        // 比赛名称
-	Type       string `json:"type"`        // 比赛类型
-	SeasonYear int    `json:"season_year"` // 赛季年
-	StartTime  int64  `json:"start_time"`  // 开始时间
-	EndTime    int64  `json:"end_time"`    // 结束时间
+	Name            string `json:"name"`                      // 比赛名称
+	Type            string `json:"type"`                      // 比赛类型
+	SeasonYear      int    `json:"season_year"`               // 赛季年
+	StartTime       int64  `json:"start_time"`                // 开始时间
+	EndTime         int64  `json:"end_time"`                  // 结束时间
+	OfficialWebsite string `json:"official_website,optional"` // 比赛官网
 }
 
 type AddCompetitionResp struct {
@@ -245,12 +247,13 @@ type GetCompetitionResp struct {
 }
 
 type UpdateCompetitionReq struct {
-	ID         int64  `path:"id"`          // 序号
-	Name       string `json:"name"`        // 比赛名称
-	Type       string `json:"type"`        // 比赛类型
-	SeasonYear int32  `json:"season_year"` // 赛季年
-	StartTime  int64  `json:"start_time"`  // 开始时间
-	EndTime    int64  `json:"end_time"`    // 结束时间
+	ID              int64  `path:"id"`                        // 序号
+	Name            string `json:"name"`                      // 比赛名称
+	Type            string `json:"type"`                      // 比赛类型
+	SeasonYear      int32  `json:"season_year"`               // 赛季年
+	StartTime       int64  `json:"start_time"`                // 开始时间
+	EndTime         int64  `json:"end_time"`                  // 结束时间
+	OfficialWebsite string `json:"official_website,optional"` // 比赛官网
 }
 
 type DeleteCompetitionReq struct {
