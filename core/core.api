@@ -13,4 +13,5 @@ import (
 	"apis/auth.api"
 	"apis/permission.api"
 	"apis/codeforces.api"
+	"apis/competition.api"
 )

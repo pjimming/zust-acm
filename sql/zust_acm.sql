@@ -85,3 +85,19 @@ CREATE TABLE `role_resource_rel`
 ) ENGINE = INNODB
   DEFAULT CHARSET = UTF8 COMMENT '角色-资源表';
 
+DROP TABLE IF EXISTS `competition`;
+CREATE TABLE `competition`
+(
+    `id`          bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '序号',
+    `created_at`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `deleted_at`  datetime NULL DEFAULT NULL COMMENT '删除时间',
+    `name`        varchar(512) NOT NULL DEFAULT '' COMMENT '比赛名称',
+    `type`        varchar(512) NOT NULL DEFAULT '' COMMENT '比赛类型',
+    `season_year` int          NOT NULL DEFAULT 0 COMMENT '赛季年',
+    `start_time`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '开始时间',
+    `end_time`    datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '结束时间',
+    PRIMARY KEY (`id`)
+) ENGINE = INNODB
+  DEFAULT CHARSET = UTF8 COMMENT '比赛信息表';
+

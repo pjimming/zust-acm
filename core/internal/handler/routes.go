@@ -7,6 +7,7 @@ import (
 	auth "github.com/pjimming/zustacm/core/internal/handler/auth"
 	basic "github.com/pjimming/zustacm/core/internal/handler/basic"
 	codeforces "github.com/pjimming/zustacm/core/internal/handler/codeforces"
+	competition "github.com/pjimming/zustacm/core/internal/handler/competition"
 	permission "github.com/pjimming/zustacm/core/internal/handler/permission"
 	resource "github.com/pjimming/zustacm/core/internal/handler/resource"
 	role "github.com/pjimming/zustacm/core/internal/handler/role"
@@ -160,6 +161,34 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPost,
 					Path:    "/api/v1/codeforces/sync/all",
 					Handler: codeforces.SyncCfAllHandler(serverCtx),
+				},
+			}...,
+		),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.JwtAuth},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/api/v1/competition",
+					Handler: competition.AddCompetitionHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/api/v1/competition",
+					Handler: competition.GetCompetitionHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/api/v1/competition/:id",
+					Handler: competition.UpdateCompetitionHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/api/v1/competition/:id",
+					Handler: competition.DeleteCompetitionHandler(serverCtx),
 				},
 			}...,
 		),

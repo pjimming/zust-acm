@@ -5,7 +5,6 @@ import (
 
 	"github.com/pjimming/zustacm/core/internal/logic/codeforces"
 	"github.com/pjimming/zustacm/core/internal/svc"
-	"github.com/pjimming/zustacm/core/utils/errorx"
 	"github.com/pjimming/zustacm/core/utils/httpresp"
 )
 

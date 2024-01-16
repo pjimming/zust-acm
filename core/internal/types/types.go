@@ -207,3 +207,52 @@ type GetRolePageResp struct {
 type SyncUserCfReq struct {
 	ID int64 `path:"id"`
 }
+
+type Competition struct {
+	ID         int64  `json:"id"`          // 序号
+	CreatedAt  int64  `json:"created_at"`  // 创建时间
+	UpdatedAt  int64  `json:"updated_at"`  // 更新时间
+	Name       string `json:"name"`        // 比赛名称
+	Type       string `json:"type"`        // 比赛类型
+	SeasonYear int32  `json:"season_year"` // 赛季年
+	StartTime  int64  `json:"start_time"`  // 开始时间
+	EndTime    int64  `json:"end_time"`    // 结束时间
+}
+
+type AddCompetitionReq struct {
+	Name       string `json:"name"`        // 比赛名称
+	Type       string `json:"type"`        // 比赛类型
+	SeasonYear int    `json:"season_year"` // 赛季年
+	StartTime  int64  `json:"start_time"`  // 开始时间
+	EndTime    int64  `json:"end_time"`    // 结束时间
+}
+
+type AddCompetitionResp struct {
+	ID int64 `json:"id"`
+}
+
+type GetCompetitionReq struct {
+	Page       int      `form:"page,default=1"`
+	Size       int      `form:"size,default=10"`
+	Name       string   `form:"name,optional"`
+	Type       []string `form:"type[],optional"`
+	SeasonYear []int64  `form:"season_year[],optional"`
+}
+
+type GetCompetitionResp struct {
+	Items []*Competition `json:"items"`
+	Total int64          `json:"total"`
+}
+
+type UpdateCompetitionReq struct {
+	ID         int64  `path:"id"`          // 序号
+	Name       string `json:"name"`        // 比赛名称
+	Type       string `json:"type"`        // 比赛类型
+	SeasonYear int32  `json:"season_year"` // 赛季年
+	StartTime  int64  `json:"start_time"`  // 开始时间
+	EndTime    int64  `json:"end_time"`    // 结束时间
+}
+
+type DeleteCompetitionReq struct {
+	ID int64 `path:"id"`
+}
