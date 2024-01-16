@@ -1,0 +1,71 @@
+syntax = "v1"
+
+info(
+	title: "record"
+	desc: "record apis"
+	author: "panjiangming"
+	email: "panjm2001@126.com"
+	version: "v1"
+)
+
+type (
+	Record {
+		ID            int64  `json:"id"`             // 序号
+		CreatedAt     int64  `json:"created_at"`     // 创建时间
+		UpdatedAt     int64  `json:"updated_at"`     // 更新时间
+		CompetitionID int64  `json:"competition_id"` // 竞赛id
+		Type          string `json:"type"`           // 奖项类型
+		Remark        string `json:"remark"`         // 备注
+	}
+
+	AddRecordReq {
+		CompetitionID int64  `json:"competition_id"`  // 竞赛id
+		Type          string `json:"type"`            // 奖项类型
+		Remark        string `json:"remark,optional"` // 备注
+	}
+
+	GetRecordReq {
+		Page          int      `form:"page,default=1"`
+		Size          int      `form:"size,default=10"`
+		CompetitionID []int64  `form:"competition_id[],optional"` // 竞赛id
+		Type          []string `form:"type[],optional"`           // 奖项类型
+	}
+
+	GetRecordResp {
+		Items []*Record `json:"items"`
+		Total int64     `json:"total"`
+	}
+
+	UpdateRecordReq {
+		ID            int64  `path:"id"`              // 序号
+		CompetitionID int64  `json:"competition_id"`  // 竞赛id
+		Type          string `json:"type"`            // 奖项类型
+		Remark        string `json:"remark,optional"` // 备注
+	}
+
+	DeleteRecordReq {
+		ID int64 `path:"id"`
+	}
+)
+
+@server(
+	group: record
+	middleware: JwtAuth
+)
+service core-api {
+	@doc "新增奖项"
+	@handler AddRecord
+	post /api/v1/record (AddRecordReq)
+
+	@doc "分页查询奖项"
+	@handler GetRecord
+	get /api/v1/record (GetRecordReq) returns (GetRecordResp)
+
+	@doc "更新奖项信息"
+	@handler UpdateRecord
+	put /api/v1/record/:id (UpdateRecordReq)
+
+	@doc "删除奖项"
+	@handler DeleteRecord
+	delete /api/v1/record/:id (DeleteRecordReq)
+}

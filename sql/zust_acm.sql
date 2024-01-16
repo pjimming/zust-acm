@@ -88,16 +88,31 @@ CREATE TABLE `role_resource_rel`
 DROP TABLE IF EXISTS `competition`;
 CREATE TABLE `competition`
 (
-    `id`          bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '序号',
-    `created_at`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `updated_at`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `deleted_at`  datetime NULL DEFAULT NULL COMMENT '删除时间',
-    `name`        varchar(512) NOT NULL DEFAULT '' COMMENT '比赛名称',
-    `type`        varchar(512) NOT NULL DEFAULT '' COMMENT '比赛类型',
-    `season_year` int          NOT NULL DEFAULT 0 COMMENT '赛季年',
-    `start_time`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '开始时间',
-    `end_time`    datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '结束时间',
+    `id`               bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '序号',
+    `created_at`       datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at`       datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `deleted_at`       datetime NULL DEFAULT NULL COMMENT '删除时间',
+    `name`             varchar(512) NOT NULL DEFAULT '' COMMENT '比赛名称',
+    `type`             varchar(512) NOT NULL DEFAULT '' COMMENT '比赛类型',
+    `season_year`      int          NOT NULL DEFAULT 0 COMMENT '赛季年',
+    `start_time`       datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '开始时间',
+    `end_time`         datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '结束时间',
+    `official_website` varchar(512) NOT NULL DEFAULT '' COMMENT '比赛官网',
     PRIMARY KEY (`id`)
 ) ENGINE = INNODB
   DEFAULT CHARSET = UTF8 COMMENT '比赛信息表';
+
+DROP TABLE IF EXISTS `record`;
+CREATE TABLE `record`
+(
+    `id`             bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '序号',
+    `created_at`     datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at`     datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `deleted_at`     datetime NULL DEFAULT NULL COMMENT '删除时间',
+    `competition_id` bigint unsigned NOT NULL DEFAULT 0 COMMENT '',
+    `type`           varchar(512) NOT NULL DEFAULT '' COMMENT '奖项类型',
+    `remark`         varchar(512) NOT NULL DEFAULT '' COMMENT '',
+    PRIMARY KEY (`id`)
+) ENGINE = INNODB
+  DEFAULT CHARSET = UTF8 COMMENT '奖项信息表';
 

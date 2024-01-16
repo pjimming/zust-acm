@@ -259,3 +259,41 @@ type UpdateCompetitionReq struct {
 type DeleteCompetitionReq struct {
 	ID int64 `path:"id"`
 }
+
+type Record struct {
+	ID            int64  `json:"id"`             // 序号
+	CreatedAt     int64  `json:"created_at"`     // 创建时间
+	UpdatedAt     int64  `json:"updated_at"`     // 更新时间
+	CompetitionID int64  `json:"competition_id"` // 竞赛id
+	Type          string `json:"type"`           // 奖项类型
+	Remark        string `json:"remark"`         // 备注
+}
+
+type AddRecordReq struct {
+	CompetitionID int64  `json:"competition_id"`  // 竞赛id
+	Type          string `json:"type"`            // 奖项类型
+	Remark        string `json:"remark,optional"` // 备注
+}
+
+type GetRecordReq struct {
+	Page          int      `form:"page,default=1"`
+	Size          int      `form:"size,default=10"`
+	CompetitionID []int64  `form:"competition_id[],optional"` // 竞赛id
+	Type          []string `form:"type[],optional"`           // 奖项类型
+}
+
+type GetRecordResp struct {
+	Items []*Record `json:"items"`
+	Total int64     `json:"total"`
+}
+
+type UpdateRecordReq struct {
+	ID            int64  `path:"id"`              // 序号
+	CompetitionID int64  `json:"competition_id"`  // 竞赛id
+	Type          string `json:"type"`            // 奖项类型
+	Remark        string `json:"remark,optional"` // 备注
+}
+
+type DeleteRecordReq struct {
+	ID int64 `path:"id"`
+}

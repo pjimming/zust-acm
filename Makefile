@@ -4,3 +4,6 @@ api:
 
 gentool:
 	gentool -c gen/gen.yaml
+
+dao:
+	@go run gen/cmd/gen.go -model=$(model) -target=core/dao -home=gen/dao.tpl

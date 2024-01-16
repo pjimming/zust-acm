@@ -9,6 +9,7 @@ import (
 	codeforces "github.com/pjimming/zustacm/core/internal/handler/codeforces"
 	competition "github.com/pjimming/zustacm/core/internal/handler/competition"
 	permission "github.com/pjimming/zustacm/core/internal/handler/permission"
+	record "github.com/pjimming/zustacm/core/internal/handler/record"
 	resource "github.com/pjimming/zustacm/core/internal/handler/resource"
 	role "github.com/pjimming/zustacm/core/internal/handler/role"
 	user "github.com/pjimming/zustacm/core/internal/handler/user"
@@ -189,6 +190,34 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodDelete,
 					Path:    "/api/v1/competition/:id",
 					Handler: competition.DeleteCompetitionHandler(serverCtx),
+				},
+			}...,
+		),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.JwtAuth},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/api/v1/record",
+					Handler: record.AddRecordHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/api/v1/record",
+					Handler: record.GetRecordHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/api/v1/record/:id",
+					Handler: record.UpdateRecordHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/api/v1/record/:id",
+					Handler: record.DeleteRecordHandler(serverCtx),
 				},
 			}...,
 		),
