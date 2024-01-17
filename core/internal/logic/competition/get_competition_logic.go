@@ -2,7 +2,6 @@ package competition
 
 import (
 	"context"
-	"github.com/jinzhu/copier"
 	"github.com/pjimming/zustacm/core/dao"
 	"github.com/pjimming/zustacm/core/model"
 	"github.com/pjimming/zustacm/core/utils/errorx"
@@ -51,13 +50,7 @@ func (l *GetCompetitionLogic) GetCompetition(req *types.GetCompetitionReq) (resp
 	resp.Total = count
 
 	for _, competition := range competitions {
-		tmp := &types.Competition{}
-		_ = copier.Copy(tmp, competition)
-		tmp.CreatedAt = competition.CreatedAt.UnixMilli()
-		tmp.UpdatedAt = competition.UpdatedAt.UnixMilli()
-		tmp.StartTime = competition.StartTime.UnixMilli()
-		tmp.EndTime = competition.EndTime.UnixMilli()
-		resp.Items = append(resp.Items, tmp)
+		resp.Items = append(resp.Items, modelToTypes(competition))
 	}
 
 	return

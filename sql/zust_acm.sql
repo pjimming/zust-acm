@@ -116,3 +116,18 @@ CREATE TABLE `record`
 ) ENGINE = INNODB
   DEFAULT CHARSET = UTF8 COMMENT '奖项信息表';
 
+DROP TABLE IF EXISTS `sys_dict`;
+CREATE TABLE `sys_dict`
+(
+    `id`         bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '序号',
+    `created_at` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `deleted_at` datetime NULL DEFAULT NULL COMMENT '删除时间',
+    `label`      varchar(512) NOT NULL DEFAULT '' COMMENT '标签',
+    `value`      varchar(512) NOT NULL DEFAULT '' COMMENT '值',
+    `type`       varchar(512) NOT NULL DEFAULT '' COMMENT '类型',
+    `remark`     varchar(512) NOT NULL DEFAULT '' COMMENT '备注',
+    PRIMARY KEY (`id`)
+) ENGINE = INNODB
+  DEFAULT CHARSET = UTF8 COMMENT '系统字典表';
+

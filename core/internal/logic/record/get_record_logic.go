@@ -35,10 +35,10 @@ func (l *GetRecordLogic) GetRecord(req *types.GetRecordReq) (resp *types.GetReco
 		Total: 0,
 	}
 
-	sb := sqlbuilder.NewSQLBuilder(l.svcCtx.DB.Model(&model.Competition{})).
+	sb := sqlbuilder.NewSQLBuilder(l.svcCtx.DB.Model(&model.Record{})).
 		AndStringIn("type", req.Type).
 		AndIntIn("competition_id", req.CompetitionID).
-		OrderDesc("updated_at").
+		OrderDesc("competition_id").
 		ToSession()
 
 	records, count, err := dao.Record.GetPage(sb, req.Page, req.Size)

@@ -82,4 +82,8 @@ service core-api {
 	@doc "删除竞赛"
 	@handler DeleteCompetition
 	delete /api/v1/competition/:id (DeleteCompetitionReq)
+
+	@doc "获取全部竞赛"
+	@handler GetCompetitionAll
+	get /api/v1/competition/all returns (GetCompetitionResp)
 }

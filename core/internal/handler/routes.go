@@ -191,6 +191,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/api/v1/competition/:id",
 					Handler: competition.DeleteCompetitionHandler(serverCtx),
 				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/api/v1/competition/all",
+					Handler: competition.GetCompetitionAllHandler(serverCtx),
+				},
 			}...,
 		),
 	)

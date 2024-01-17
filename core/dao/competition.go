@@ -67,3 +67,13 @@ func (*competition) FindByIds(db *gorm.DB, ids []int64) (r []*model.Competition,
 	}
 	return
 }
+
+func (*competition) FindAll(db *gorm.DB) (r []*model.Competition, err error) {
+	r = make([]*model.Competition, 0)
+	if err = db.Model(&model.Competition{}).
+		Find(&r).
+		Error; err != nil {
+		return nil, err
+	}
+	return
+}
