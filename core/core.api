@@ -15,4 +15,5 @@ import (
 	"apis/codeforces.api"
 	"apis/competition.api"
 	"apis/record.api"
+	"apis/sys_dict.api"
 )

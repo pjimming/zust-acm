@@ -5,5 +5,9 @@ api:
 gentool:
 	gentool -c gen/gen.yaml
 
-dao:
-	@go run gen/cmd/gen.go -model=$(model) -target=core/dao -home=gen/dao.tpl
+crud:
+	@gentool -c gen/gen.yaml
+	@echo '📢Info: gentool exec complete!!!'
+	@go run gen/cmd/gen.go -model=$(model) -dao=core/dao -api=core/apis -logic=core/internal/logic -home=gen/tpl
+	@echo '📢Info: gen crud complete!!!'
+	@make api

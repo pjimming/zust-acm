@@ -56,3 +56,24 @@ func (*{{.Model}}) GetPage(db *gorm.DB, page, size int) (r []*model.{{firstUpper
 	}
 	return
 }
+
+func (*{{.Model}}) FindByIds(db *gorm.DB, ids []int64) (r []*model.{{firstUpper .Model}}, err error) {
+	r = make([]*model.{{firstUpper .Model}}, 0)
+	if err = db.Model(&model.{{firstUpper .Model}}{}).
+		Where("id in (?)", ids).
+		Find(&r).
+		Error; err != nil {
+		return nil, err
+	}
+	return
+}
+
+func (*{{.Model}}) FindAll(db *gorm.DB) (r []*model.{{firstUpper .Model}}, err error) {
+	r = make([]*model.{{firstUpper .Model}}, 0)
+	if err = db.Model(&model.{{firstUpper .Model}}{}).
+		Find(&r).
+		Error; err != nil {
+		return nil, err
+	}
+	return
+}

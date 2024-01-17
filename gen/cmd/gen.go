@@ -11,35 +11,100 @@ import (
 	"unicode"
 )
 
+const (
+	ExtGolang = "go"
+	ExtApi    = "api"
+)
+
 func main() {
-	var model, target, home string
+	var model, dao, api, logic, home string
 	flag.StringVar(&model, "model", "", "生成数据表方法名")
-	flag.StringVar(&target, "target", "../../core/dao", "生成文件目标文件夹")
-	flag.StringVar(&home, "home", "../dao.tpl", "生成文件模版")
+	flag.StringVar(&dao, "dao", "../../core/dao", "生成dao文件目标文件夹")
+	flag.StringVar(&api, "api", "../../core/apis", "生成api文件目标文件夹")
+	flag.StringVar(&logic, "logic", "../../core/internal/logic", "生成logic文件目标文件夹")
+	flag.StringVar(&home, "home", "../tpl", "生成文件模版")
 	flag.Parse()
 
 	if model == "" {
 		panic("model is null")
 	}
 
-	target = strings.TrimSuffix(target, "/")
+	home = strings.TrimSuffix(home, "/")
 
-	filePath := fmt.Sprintf("%s/%s.go", target, convertToUpperCamelCase(model))
+	// render dao
+	render(dao, ExtGolang, model, home+"/dao.tpl", convertToUpperCamelCase(model))
+	// render api
+	render(api, ExtApi, model, home+"/api.tpl", convertToUpperCamelCase(model))
+	// render logic crud
+	logic = strings.TrimSuffix(logic, "/")
+	// - create
+	render(
+		fmt.Sprintf("%s/%s", logic, strings.ToLower(model)),
+		ExtGolang,
+		model,
+		home+"/create.tpl",
+		fmt.Sprintf("add_%s_logic", convertToUpperCamelCase(model)),
+	)
+	// - read
+	render(
+		fmt.Sprintf("%s/%s", logic, strings.ToLower(model)),
+		ExtGolang,
+		model,
+		home+"/read.tpl",
+		fmt.Sprintf("get_%s_logic", convertToUpperCamelCase(model)),
+	)
+	// - update
+	render(
+		fmt.Sprintf("%s/%s", logic, strings.ToLower(model)),
+		ExtGolang,
+		model,
+		home+"/update.tpl",
+		fmt.Sprintf("update_%s_logic", convertToUpperCamelCase(model)),
+	)
+	// -delete
+	render(
+		fmt.Sprintf("%s/%s", logic, strings.ToLower(model)),
+		ExtGolang,
+		model,
+		home+"/delete.tpl",
+		fmt.Sprintf("delete_%s_logic", convertToUpperCamelCase(model)),
+	)
+	// -utils
+	render(
+		fmt.Sprintf("%s/%s", logic, strings.ToLower(model)),
+		ExtGolang,
+		model,
+		home+"/logic_utils.tpl",
+		"utils",
+	)
+}
+
+func render(target, ext, model, tpl, filename string) {
+	target = strings.TrimSuffix(target, "/")
+	filePath := fmt.Sprintf("%s/%s.%s", target, filename, ext)
 	filePath, _ = filepath.Abs(filePath)
 	if isExist, _ := pathExists(filePath); isExist {
 		fmt.Printf("%s exists, ignored generation\n", filePath)
-		os.Exit(0)
+		return
 	}
 
-	tplText, err := readTpl(home)
+	tplText, err := readTpl(tpl)
 	if err != nil {
 		panic(err)
 	}
 
-	tmpl, err := template.New(fmt.Sprintf("%s.go", model)).
-		Funcs(template.FuncMap{"firstUpper": firstUpper}).
+	tmpl, err := template.New("template").
+		Funcs(template.FuncMap{
+			"firstUpper":              firstUpper,
+			"convertToUpperCamelCase": convertToUpperCamelCase,
+			"toLower":                 strings.ToLower,
+		}).
 		Parse(tplText)
 	if err != nil {
+		panic(err)
+	}
+
+	if err = os.MkdirAll(filepath.Dir(filePath), 0755); err != nil {
 		panic(err)
 	}
 

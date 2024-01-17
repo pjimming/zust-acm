@@ -1,9 +1,10 @@
 package competition
 
 import (
-	"github.com/jinzhu/copier"
 	"github.com/pjimming/zustacm/core/internal/types"
 	"github.com/pjimming/zustacm/core/model"
+
+	"github.com/jinzhu/copier"
 )
 
 func modelToTypes(from *model.Competition) *types.Competition {

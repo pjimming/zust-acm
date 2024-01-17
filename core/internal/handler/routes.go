@@ -12,6 +12,7 @@ import (
 	record "github.com/pjimming/zustacm/core/internal/handler/record"
 	resource "github.com/pjimming/zustacm/core/internal/handler/resource"
 	role "github.com/pjimming/zustacm/core/internal/handler/role"
+	sysdict "github.com/pjimming/zustacm/core/internal/handler/sysdict"
 	user "github.com/pjimming/zustacm/core/internal/handler/user"
 	"github.com/pjimming/zustacm/core/internal/svc"
 
@@ -223,6 +224,34 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodDelete,
 					Path:    "/api/v1/record/:id",
 					Handler: record.DeleteRecordHandler(serverCtx),
+				},
+			}...,
+		),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.JwtAuth},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/api/v1/sysdict",
+					Handler: sysdict.AddSysDictHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/api/v1/sysdict",
+					Handler: sysdict.GetSysDictHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/api/v1/sysdict/:id",
+					Handler: sysdict.UpdateSysDictHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/api/v1/sysdict/:id",
+					Handler: sysdict.DeleteSysDictHandler(serverCtx),
 				},
 			}...,
 		),

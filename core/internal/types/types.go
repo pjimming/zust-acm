@@ -300,3 +300,45 @@ type UpdateRecordReq struct {
 type DeleteRecordReq struct {
 	ID int64 `path:"id"`
 }
+
+type SysDict struct {
+	ID        int64  `json:"id"`         // 序号
+	CreatedAt int64  `json:"created_at"` // 创建时间
+	UpdatedAt int64  `json:"updated_at"` // 更新时间
+	Label     string `json:"label"`      // 标签
+	Value     string `json:"value"`      // 值
+	Type      string `json:"type"`       // 类型
+	Remark    string `json:"remark"`     // 备注
+}
+
+type AddSysDictReq struct {
+	Label  string `json:"label"`           // 标签
+	Value  string `json:"value"`           // 值
+	Type   string `json:"type"`            // 类型
+	Remark string `json:"remark,optional"` // 备注
+}
+
+type GetSysDictReq struct {
+	Page  int    `form:"page,default=1"`
+	Size  int    `form:"size,default=10"`
+	Label string `form:"label,optional"`
+	Value string `form:"value,optional"`
+	Type  string `form:"type],optional"` // 字典类型
+}
+
+type GetSysDictResp struct {
+	Items []*SysDict `json:"items"`
+	Total int64      `json:"total"`
+}
+
+type UpdateSysDictReq struct {
+	ID     int64  `path:"id"`              // 序号
+	Label  string `json:"label"`           // 标签
+	Value  string `json:"value"`           // 值
+	Type   string `json:"type"`            // 类型
+	Remark string `json:"remark,optional"` // 备注
+}
+
+type DeleteSysDictReq struct {
+	ID int64 `path:"id"`
+}
