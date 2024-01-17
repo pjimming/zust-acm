@@ -2,6 +2,8 @@ package record
 
 import (
 	"context"
+	"github.com/pjimming/zustacm/core/dao"
+	"github.com/pjimming/zustacm/core/utils/errorx"
 
 	"github.com/pjimming/zustacm/core/internal/svc"
 	"github.com/pjimming/zustacm/core/internal/types"
@@ -24,7 +26,14 @@ func NewDeleteRecordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Dele
 }
 
 func (l *DeleteRecordLogic) DeleteRecord(req *types.DeleteRecordReq) error {
-	// todo: add your logic here and delete this line
+
+	// todo: delete certificate
+
+	err := dao.Record.DeleteOne(l.svcCtx.DB, req.ID)
+	if err != nil {
+		err = errorx.ErrorDB(err)
+		return err
+	}
 
 	return nil
 }

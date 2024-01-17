@@ -5,6 +5,7 @@ import (
 	"github.com/jinzhu/copier"
 	"github.com/pjimming/zustacm/core/dao"
 	"github.com/pjimming/zustacm/core/model"
+	"github.com/pjimming/zustacm/core/utils/errorx"
 	"github.com/pjimming/zustacm/core/utils/sqlbuilder"
 
 	"github.com/pjimming/zustacm/core/internal/svc"
@@ -38,9 +39,14 @@ func (l *GetCompetitionLogic) GetCompetition(req *types.GetCompetitionReq) (resp
 		AndStringLike("name", req.Name).
 		AndStringIn("type", req.Type).
 		AndIntIn("season_year", req.SeasonYear).
-		OrderDesc("updated_at").ToSession()
+		OrderDesc("updated_at").
+		ToSession()
 
 	competitions, count, err := dao.Competition.GetPage(sb, req.Page, req.Size)
+	if err != nil {
+		err = errorx.ErrorDB(err)
+		return nil, err
+	}
 
 	resp.Total = count
 

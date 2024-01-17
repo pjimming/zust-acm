@@ -10,12 +10,15 @@ info(
 
 type (
 	Record {
-		ID            int64  `json:"id"`             // 序号
-		CreatedAt     int64  `json:"created_at"`     // 创建时间
-		UpdatedAt     int64  `json:"updated_at"`     // 更新时间
-		CompetitionID int64  `json:"competition_id"` // 竞赛id
-		Type          string `json:"type"`           // 奖项类型
-		Remark        string `json:"remark"`         // 备注
+		ID              int64  `json:"id"`               // 序号
+		CreatedAt       int64  `json:"created_at"`       // 创建时间
+		UpdatedAt       int64  `json:"updated_at"`       // 更新时间
+		CompetitionID   int64  `json:"competition_id"`   // 竞赛id
+		CompetitionName string `json:"competition_name"` // 竞赛全称
+		CompetitionType string `json:"competition_type"` // 竞赛类型
+		SeasonYear      int32  `json:"season_year"`      // 赛季年
+		Type            string `json:"type"`             // 奖项类型
+		Remark          string `json:"remark"`           // 备注
 	}
 
 	AddRecordReq {

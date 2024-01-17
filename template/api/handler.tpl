@@ -3,7 +3,7 @@ package {{.PkgName}}
 import (
 	"net/http"
 
-	"github.com/pjimming/zustacm/core/utils/errorx"
+	{{if .HasRequest}}"github.com/pjimming/zustacm/core/utils/errorx"
     "github.com/pjimming/zustacm/core/utils/httpresp"
 	{{.ImportPackages}}
 

@@ -56,3 +56,14 @@ func (*competition) GetPage(db *gorm.DB, page, size int) (r []*model.Competition
 	}
 	return
 }
+
+func (*competition) FindByIds(db *gorm.DB, ids []int64) (r []*model.Competition, err error) {
+	r = make([]*model.Competition, 0)
+	if err = db.Model(&model.Competition{}).
+		Where("id in (?)", ids).
+		Find(&r).
+		Error; err != nil {
+		return nil, err
+	}
+	return
+}

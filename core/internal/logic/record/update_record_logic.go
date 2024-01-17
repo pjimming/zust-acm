@@ -2,6 +2,9 @@ package record
 
 import (
 	"context"
+	"github.com/jinzhu/copier"
+	"github.com/pjimming/zustacm/core/dao"
+	"github.com/pjimming/zustacm/core/utils/errorx"
 
 	"github.com/pjimming/zustacm/core/internal/svc"
 	"github.com/pjimming/zustacm/core/internal/types"
@@ -24,7 +27,18 @@ func NewUpdateRecordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 }
 
 func (l *UpdateRecordLogic) UpdateRecord(req *types.UpdateRecordReq) error {
-	// todo: add your logic here and delete this line
+
+	record, err := dao.Record.FindOne(l.svcCtx.DB, req.ID)
+	if err != nil {
+		err = errorx.ErrorDB(err)
+		return err
+	}
+
+	_ = copier.Copy(record, req)
+	if err = dao.Record.UpdateOne(l.svcCtx.DB, record); err != nil {
+		err = errorx.ErrorDB(err)
+		return err
+	}
 
 	return nil
 }
