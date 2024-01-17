@@ -68,6 +68,17 @@ func (*sysDict) FindByIds(db *gorm.DB, ids []int64) (r []*model.SysDict, err err
 	return
 }
 
+func (*sysDict) FindByType(db *gorm.DB, typ string) (r []*model.SysDict, err error) {
+	r = make([]*model.SysDict, 0)
+	if err = db.Model(&model.SysDict{}).
+		Where("type = ?", typ).
+		Find(&r).
+		Error; err != nil {
+		return nil, err
+	}
+	return
+}
+
 func (*sysDict) FindAll(db *gorm.DB) (r []*model.SysDict, err error) {
 	r = make([]*model.SysDict, 0)
 	if err = db.Model(&model.SysDict{}).

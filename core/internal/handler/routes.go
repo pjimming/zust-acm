@@ -253,6 +253,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/api/v1/sysdict/:id",
 					Handler: sysdict.DeleteSysDictHandler(serverCtx),
 				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/api/v1/sysdict/all",
+					Handler: sysdict.GetSysDictAllHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/api/v1/sysdict/types",
+					Handler: sysdict.GetSysDictTypesHandler(serverCtx),
+				},
 			}...,
 		),
 	)

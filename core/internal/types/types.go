@@ -323,7 +323,7 @@ type GetSysDictReq struct {
 	Size  int    `form:"size,default=10"`
 	Label string `form:"label,optional"`
 	Value string `form:"value,optional"`
-	Type  string `form:"type],optional"` // 字典类型
+	Type  string `form:"type,optional"` // 字典类型
 }
 
 type GetSysDictResp struct {
@@ -341,4 +341,8 @@ type UpdateSysDictReq struct {
 
 type DeleteSysDictReq struct {
 	ID int64 `path:"id"`
+}
+
+type GetSysDictTypesResp struct {
+	Types []string `json:"types"`
 }

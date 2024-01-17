@@ -31,7 +31,7 @@ type (
 		Size  int    `form:"size,default=10"`
 		Label string `form:"label,optional"`
 		Value string `form:"value,optional"`
-		Type  string `form:"type],optional"` // 字典类型
+		Type  string `form:"type,optional"` // 字典类型
 	}
 
 	GetSysDictResp {
@@ -49,6 +49,10 @@ type (
 
 	DeleteSysDictReq {
 		ID int64 `path:"id"`
+	}
+
+	GetSysDictTypesResp {
+		Types []string `json:"types"`
 	}
 )
 
@@ -72,4 +76,12 @@ service core-api {
 	@doc "删除字典"
 	@handler DeleteSysDict
 	delete /api/v1/sysdict/:id (DeleteSysDictReq)
+
+	@doc "查询字典-all"
+	@handler GetSysDictAll
+	get /api/v1/sysdict/all (GetSysDictReq) returns (GetSysDictResp)
+
+	@doc "获取字典类型"
+	@handler GetSysDictTypes
+	get /api/v1/sysdict/types returns (GetSysDictTypesResp)
 }
