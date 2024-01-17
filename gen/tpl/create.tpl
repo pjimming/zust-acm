@@ -33,10 +33,10 @@ func (l *Add{{firstUpper .Model}}Logic) Add{{firstUpper .Model}}(req *types.Add{
 	_ = copier.Copy({{.Model}}, req)
 	// todo: custom trans
 
-	if err = dao.{{firstUpper .Model}}.Insert(l.svcCtx.DB, {{.Model}}); err != nil {
+	if err := dao.{{firstUpper .Model}}.Insert(l.svcCtx.DB, {{.Model}}); err != nil {
 		err = errorx.ErrorDB(err)
 		return err
 	}
 
-	return
+	return nil
 }
