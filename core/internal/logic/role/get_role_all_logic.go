@@ -2,10 +2,8 @@ package role
 
 import (
 	"context"
-	"github.com/jinzhu/copier"
 	"github.com/pjimming/zustacm/core/model"
 	"github.com/pjimming/zustacm/core/utils/errorx"
-	"github.com/pjimming/zustacm/core/utils/helper"
 	"github.com/pjimming/zustacm/core/utils/sqlbuilder"
 
 	"github.com/pjimming/zustacm/core/internal/svc"
@@ -47,10 +45,7 @@ func (l *GetRoleAllLogic) GetRoleAll(req *types.GetRoleAllReq) (resp *types.GetR
 	}
 
 	for _, role := range roles {
-		tmp := &types.Role{}
-		_ = copier.Copy(tmp, role)
-		tmp.CreatedAt = helper.GetLocalDateTime(role.CreatedAt)
-		tmp.UpdatedAt = helper.GetLocalDateTime(role.UpdatedAt)
+		tmp := model2Types(role)
 		resp.Items = append(resp.Items, tmp)
 	}
 

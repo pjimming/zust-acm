@@ -5,7 +5,6 @@ import (
 	"github.com/jinzhu/copier"
 	"github.com/pjimming/zustacm/core/model"
 	"github.com/pjimming/zustacm/core/utils/errorx"
-	"github.com/pjimming/zustacm/core/utils/helper"
 	"github.com/pjimming/zustacm/core/utils/userauth"
 
 	"github.com/pjimming/zustacm/core/internal/svc"
@@ -47,8 +46,8 @@ func (l *GetUserDetailLogic) GetUserDetail() (resp *types.GetUserDetailResp, err
 
 	resp = &types.GetUserDetailResp{}
 	_ = copier.Copy(resp, userInfo)
-	resp.CreatedAt = helper.GetLocalDateTime(userInfo.CreatedAt)
-	resp.UpdatedAt = helper.GetLocalDateTime(userInfo.UpdatedAt)
+	resp.CreatedAt = userInfo.CreatedAt.UnixMilli()
+	resp.UpdatedAt = userInfo.UpdatedAt.UnixMilli()
 
 	resp.Role = &types.Role{}
 
@@ -62,8 +61,8 @@ func (l *GetUserDetailLogic) GetUserDetail() (resp *types.GetUserDetailResp, err
 	}
 
 	_ = copier.Copy(resp.Role, role)
-	resp.Role.CreatedAt = helper.GetLocalDateTime(role.CreatedAt)
-	resp.Role.UpdatedAt = helper.GetLocalDateTime(role.UpdatedAt)
+	resp.Role.CreatedAt = role.CreatedAt.UnixMilli()
+	resp.Role.UpdatedAt = role.UpdatedAt.UnixMilli()
 
 	return
 }

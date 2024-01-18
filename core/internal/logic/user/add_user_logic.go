@@ -40,7 +40,7 @@ func (l *AddUserLogic) AddUser(req *types.AddUserReq) (resp *types.AddUserResp, 
 	}
 
 	userAuth := &model.UserAuth{Username: req.Username}
-	userInfo := &model.UserInfo{Username: req.Username}
+	userInfo := &model.UserInfo{Username: req.Username, RoleID: req.RoldId, IsEnable: req.IsEnable}
 	userAuth.Password, _ = userauth.EncryptPwd(req.Password)
 
 	if err = l.svcCtx.DB.Create(userAuth).Error; err != nil {

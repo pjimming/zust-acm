@@ -86,6 +86,8 @@ type Resource struct {
 type AddUserReq struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
+	RoldId   int64  `json:"role_id"`
+	IsEnable bool   `json:"is_enable"`
 }
 
 type AddUserResp struct {
@@ -105,8 +107,8 @@ type GetUserPageReq struct {
 
 type User struct {
 	ID             int64  `json:"id"`              // 序号
-	CreatedAt      string `json:"created_at"`      // 创建时间
-	UpdatedAt      string `json:"updated_at"`      // 更新时间
+	CreatedAt      int64  `json:"created_at"`      // 创建时间
+	UpdatedAt      int64  `json:"updated_at"`      // 更新时间
 	Username       string `json:"username"`        // 账号
 	Email          string `json:"email"`           // 邮箱
 	Avatar         string `json:"avatar"`          // 头像
@@ -132,8 +134,8 @@ type UserRole struct {
 
 type GetUserDetailResp struct {
 	ID             int64  `json:"id"`              // 序号
-	CreatedAt      string `json:"created_at"`      // 创建时间
-	UpdatedAt      string `json:"updated_at"`      // 更新时间
+	CreatedAt      int64  `json:"created_at"`      // 创建时间
+	UpdatedAt      int64  `json:"updated_at"`      // 更新时间
 	Username       string `json:"username"`        // 账号
 	Email          string `json:"email"`           // 邮箱
 	Avatar         string `json:"avatar"`          // 头像
@@ -174,8 +176,8 @@ type AddRoleResp struct {
 
 type Role struct {
 	ID          int64   `json:"id"`           // 序号
-	CreatedAt   string  `json:"created_at"`   // 创建时间
-	UpdatedAt   string  `json:"updated_at"`   // 更新时间
+	CreatedAt   int64   `json:"created_at"`   // 创建时间
+	UpdatedAt   int64   `json:"updated_at"`   // 更新时间
 	Code        string  `json:"code"`         // 角色编码
 	Name        string  `json:"name"`         // 角色名
 	IsEnable    bool    `json:"is_enable"`    // 启用状态:0-禁用;1-启用
@@ -202,6 +204,14 @@ type GetRolePageReq struct {
 type GetRolePageResp struct {
 	Items []*Role `json:"items"`
 	Total int64   `json:"total"`
+}
+
+type UpdateRoleReq struct {
+	ID          int64   `path:"id"`
+	Code        string  `json:"code"`
+	Name        string  `json:"name"`
+	IsEnable    bool    `json:"is_enable"`
+	ResourceIds []int64 `json:"resource_ids"`
 }
 
 type SyncUserCfReq struct {
