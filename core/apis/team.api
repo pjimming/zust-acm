@@ -1,0 +1,70 @@
+syntax = "v1"
+
+info(
+	title: "team"
+	desc: "team apis"
+	author: "panjiangming"
+	email: "panjm2001@126.com"
+	version: "v1"
+)
+
+type (
+	Team {
+		ID        int64  `json:"id"`         // 序号
+		CreatedAt int64  `json:"created_at"` // 创建时间
+		UpdatedAt int64  `json:"updated_at"` // 更新时间
+		LeaderID  int64  `json:"leader_id"`  // 队长id；user_info.id
+		Name      string `json:"name"`       // 队伍名称
+		Remark    string `json:"remark"`     // 备注
+	}
+
+	AddTeamReq {
+		LeaderID int64  `json:"leader_id"`       // 队长id；user_info.id
+		Name     string `json:"name"`            // 队伍名称
+		Remark   string `json:"remark,optional"` // 备注
+	}
+
+	GetTeamReq {
+		Page int    `form:"page,default=1"`
+		Size int    `form:"size,default=10"`
+		Name string `form:"name,optioanl"` // 队伍名称
+	}
+
+	GetTeamResp {
+		Items []*Team `json:"items"`
+		Total int64   `json:"total"`
+	}
+
+	UpdateTeamReq {
+		ID       int64  `path:"id"`              // 序号
+		LeaderID int64  `json:"leader_id"`       // 队长id；user_info.id
+		Name     string `json:"name"`            // 队伍名称
+		Remark   string `json:"remark,optional"` // 备注
+	}
+
+	DeleteTeamReq {
+		ID int64 `path:"id"`
+	}
+)
+
+@server(
+	group: team
+	middleware: JwtAuth
+)
+service core-api {
+	@doc "新增"
+	@handler AddTeam
+	post /api/v1/team (AddTeamReq)
+
+	@doc "分页查询"
+	@handler GetTeam
+	get /api/v1/team (GetTeamReq) returns (GetTeamResp)
+
+	@doc "更新信息"
+	@handler UpdateTeam
+	put /api/v1/team/:id (UpdateTeamReq)
+
+	@doc "删除"
+	@handler DeleteTeam
+	delete /api/v1/team/:id (DeleteTeamReq)
+}

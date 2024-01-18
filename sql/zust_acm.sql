@@ -131,3 +131,16 @@ CREATE TABLE `sys_dict`
 ) ENGINE = INNODB
   DEFAULT CHARSET = UTF8 COMMENT '系统字典表';
 
+DROP TABLE IF EXISTS `team`;
+CREATE TABLE `team`
+(
+    `id`         bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '序号',
+    `created_at` datetime        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at` datetime        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `deleted_at` datetime        NULL     DEFAULT NULL COMMENT '删除时间',
+    `leader_id`  bigint unsigned NOT NULL DEFAULT 0 COMMENT '队长id；user_info.id',
+    `name`       varchar(512)    NOT NULL DEFAULT '' COMMENT '队伍名称',
+    `remark`     varchar(512)    NOT NULL DEFAULT '' COMMENT '备注',
+    PRIMARY KEY (`id`)
+) ENGINE = INNODB
+  DEFAULT CHARSET = UTF8 COMMENT '队伍信息表';

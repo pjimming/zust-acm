@@ -356,3 +356,40 @@ type DeleteSysDictReq struct {
 type GetSysDictTypesResp struct {
 	Types []string `json:"types"`
 }
+
+type Team struct {
+	ID        int64  `json:"id"`         // 序号
+	CreatedAt int64  `json:"created_at"` // 创建时间
+	UpdatedAt int64  `json:"updated_at"` // 更新时间
+	LeaderID  int64  `json:"leader_id"`  // 队长id；user_info.id
+	Name      string `json:"name"`       // 队伍名称
+	Remark    string `json:"remark"`     // 备注
+}
+
+type AddTeamReq struct {
+	LeaderID int64  `json:"leader_id"`       // 队长id；user_info.id
+	Name     string `json:"name"`            // 队伍名称
+	Remark   string `json:"remark,optional"` // 备注
+}
+
+type GetTeamReq struct {
+	Page int    `form:"page,default=1"`
+	Size int    `form:"size,default=10"`
+	Name string `form:"name,optioanl"` // 队伍名称
+}
+
+type GetTeamResp struct {
+	Items []*Team `json:"items"`
+	Total int64   `json:"total"`
+}
+
+type UpdateTeamReq struct {
+	ID       int64  `path:"id"`              // 序号
+	LeaderID int64  `json:"leader_id"`       // 队长id；user_info.id
+	Name     string `json:"name"`            // 队伍名称
+	Remark   string `json:"remark,optional"` // 备注
+}
+
+type DeleteTeamReq struct {
+	ID int64 `path:"id"`
+}
