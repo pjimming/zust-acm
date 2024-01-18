@@ -67,3 +67,17 @@ func (*roleResourceRel) SearchByRoleId(db *gorm.DB, roleId int64) (r []*model.Ro
 	}
 	return
 }
+
+func (*roleResourceRel) RemoveByRoleIdForce(db *gorm.DB, roleId int64) error {
+	return db.Model(&model.RoleResourceRel{}).
+		Where("role_id = ?", roleId).
+		Unscoped().
+		Delete(&model.RoleResourceRel{}).
+		Error
+}
+
+func (*roleResourceRel) BatchAdd(db *gorm.DB, data []*model.RoleResourceRel) error {
+	return db.Model(&model.RoleResourceRel{}).
+		Create(&data).
+		Error
+}
