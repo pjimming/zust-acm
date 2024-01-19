@@ -10,4 +10,8 @@ crud:
 	@echo '📢Info: gentool exec complete!!!'
 	@go run gen/cmd/gen.go -model=$(model) -dao=core/dao -api=core/apis -logic=core/internal/logic -home=gen/tpl
 	@echo '📢Info: gen crud complete!!!'
+	@gsed '$$i \\t"apis/$(model).api"' core/core.api
 	@make api
+
+test:
+	gsed '$$i \\t"apis/$(model).api"' core/core.api
