@@ -10,14 +10,14 @@ info(
 
 type (
 	Team {
-		ID        int64         `json:"id"`         // 序号
-		CreatedAt int64         `json:"created_at"` // 创建时间
-		UpdatedAt int64         `json:"updated_at"` // 更新时间
-		Leader    *TeamMember   `json:"leader"`     // 队长
-		Members   []*TeamMember `json:"members"`    // 队员
-		Teachers  []*TeamMember `json:"teachers"`   // 指导教师
-		Name      string        `json:"name"`       // 队伍名称
-		Remark    string        `json:"remark"`     // 备注
+		ID         int64   `json:"id"`          // 序号
+		CreatedAt  int64   `json:"created_at"`  // 创建时间
+		UpdatedAt  int64   `json:"updated_at"`  // 更新时间
+		LeaderId   int64   `json:"leader_id"`   // 队长
+		MemberIds  []int64 `json:"member_ids"`  // 队员
+		TeacherIds []int64 `json:"teacher_ids"` // 指导教师
+		Name       string  `json:"name"`        // 队伍名称
+		Remark     string  `json:"remark"`      // 备注
 	}
 
 	TeamMember {

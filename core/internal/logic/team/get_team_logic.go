@@ -73,8 +73,6 @@ func (l *GetTeamLogic) GetTeam(req *types.GetTeamReq) (resp *types.GetTeamResp, 
 			return nil, err
 		}
 
-		tmp.Members = make([]*types.TeamMember, 0)
-
 		for _, utr := range utrs {
 			userInfo, err := dao.UserInfo.FindOne(l.svcCtx.DB, utr.UserID)
 			if err != nil {
@@ -84,23 +82,11 @@ func (l *GetTeamLogic) GetTeam(req *types.GetTeamReq) (resp *types.GetTeamResp, 
 
 			switch utr.Type {
 			case constant.TeamLeader:
-				tmp.Leader = &types.TeamMember{
-					ID:       userInfo.ID,
-					Username: userInfo.Username,
-					Cname:    userInfo.Cname,
-				}
+				tmp.LeaderId = userInfo.ID
 			case constant.TeamMember:
-				tmp.Members = append(tmp.Members, &types.TeamMember{
-					ID:       userInfo.ID,
-					Username: userInfo.Username,
-					Cname:    userInfo.Cname,
-				})
+				tmp.MemberIds = append(tmp.MemberIds, userInfo.ID)
 			case constant.TeamTeacher:
-				tmp.Teachers = append(tmp.Teachers, &types.TeamMember{
-					ID:       userInfo.ID,
-					Username: userInfo.Username,
-					Cname:    userInfo.Cname,
-				})
+				tmp.TeacherIds = append(tmp.TeacherIds, userInfo.ID)
 			}
 
 		}

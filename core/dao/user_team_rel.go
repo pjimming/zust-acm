@@ -119,3 +119,11 @@ func (*userTeamRel) FindByTeamIds(db *gorm.DB, ids []int64) (r []*model.UserTeam
 	}
 	return
 }
+
+func (*userTeamRel) RemoveByTeamIdsForce(db *gorm.DB, ids []int64) error {
+	return db.Model(&model.UserTeamRel{}).
+		Unscoped().
+		Where("team_id in (?)", ids).
+		Delete(&model.UserTeamRel{}).
+		Error
+}

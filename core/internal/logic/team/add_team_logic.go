@@ -30,7 +30,6 @@ func (l *AddTeamLogic) AddTeam(req *types.AddTeamReq) error {
 
 	team := &model.Team{}
 	_ = copier.Copy(team, req)
-	// todo: custom trans
 
 	if err := dao.Team.Insert(l.svcCtx.DB, team); err != nil {
 		err = errorx.ErrorDB(err)
