@@ -67,3 +67,13 @@ func (*userInfo) FindByUsername(db *gorm.DB, username string) (r *model.UserInfo
 	}
 	return
 }
+
+func (*userInfo) FindAll(db *gorm.DB) (r []*model.UserInfo, err error) {
+	r = make([]*model.UserInfo, 0)
+	if err = db.Model(&model.UserInfo{}).
+		Find(&r).
+		Error; err != nil {
+		return nil, err
+	}
+	return
+}

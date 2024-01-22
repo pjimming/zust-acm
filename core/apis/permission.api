@@ -210,6 +210,10 @@ service core-api {
 	@doc "获取用户详情"
 	@handler GetUserDetail
 	get /api/v1/user/detail returns (GetUserDetailResp)
+
+	@doc "获取全部角色"
+	@handler GetUserAll
+	get /api/v1/user/all returns (GetUserPageResp)
 }
 
 // role

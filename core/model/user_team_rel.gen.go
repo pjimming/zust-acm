@@ -10,19 +10,20 @@ import (
 	"gorm.io/gorm"
 )
 
-const TableNameTeam = "team"
+const TableNameUserTeamRel = "user_team_rel"
 
-// Team 队伍信息表
-type Team struct {
+// UserTeamRel 用户-队伍关系表
+type UserTeamRel struct {
 	ID        int64          `gorm:"column:id;type:bigint(20) unsigned;primaryKey;autoIncrement:true;comment:序号" json:"id"`             // 序号
 	CreatedAt time.Time      `gorm:"column:created_at;type:datetime;not null;default:CURRENT_TIMESTAMP;comment:创建时间" json:"created_at"` // 创建时间
 	UpdatedAt time.Time      `gorm:"column:updated_at;type:datetime;not null;default:CURRENT_TIMESTAMP;comment:更新时间" json:"updated_at"` // 更新时间
 	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at;type:datetime;comment:删除时间" json:"deleted_at"`                                    // 删除时间
-	Name      string         `gorm:"column:name;type:varchar(512);not null;comment:队伍名称" json:"name"`                                   // 队伍名称
-	Remark    string         `gorm:"column:remark;type:varchar(512);not null;comment:备注" json:"remark"`                                 // 备注
+	UserID    int64          `gorm:"column:user_id;type:bigint(20) unsigned;not null;comment:用户id；user_info.id" json:"user_id"`         // 用户id；user_info.id
+	TeamID    int64          `gorm:"column:team_id;type:bigint(20) unsigned;not null;comment:队伍id" json:"team_id"`                      // 队伍id
+	Type      string         `gorm:"column:type;type:varchar(512);not null;comment:类型" json:"type"`                                     // 类型
 }
 
-// TableName Team's table name
-func (*Team) TableName() string {
-	return TableNameTeam
+// TableName UserTeamRel's table name
+func (*UserTeamRel) TableName() string {
+	return TableNameUserTeamRel
 }

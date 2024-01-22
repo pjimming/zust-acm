@@ -10,24 +10,35 @@ info(
 
 type (
 	Team {
-		ID        int64  `json:"id"`         // 序号
-		CreatedAt int64  `json:"created_at"` // 创建时间
-		UpdatedAt int64  `json:"updated_at"` // 更新时间
-		LeaderID  int64  `json:"leader_id"`  // 队长id；user_info.id
-		Name      string `json:"name"`       // 队伍名称
-		Remark    string `json:"remark"`     // 备注
+		ID        int64         `json:"id"`         // 序号
+		CreatedAt int64         `json:"created_at"` // 创建时间
+		UpdatedAt int64         `json:"updated_at"` // 更新时间
+		Leader    *TeamMember   `json:"leader"`     // 队长
+		Members   []*TeamMember `json:"members"`    // 队员
+		Teachers  []*TeamMember `json:"teachers"`   // 指导教师
+		Name      string        `json:"name"`       // 队伍名称
+		Remark    string        `json:"remark"`     // 备注
+	}
+
+	TeamMember {
+		ID       int64  `json:"id"` // user_info.id
+		Username string `json:"username"`
+		Cname    string `json:"cname"`
 	}
 
 	AddTeamReq {
-		LeaderID int64  `json:"leader_id"`       // 队长id；user_info.id
-		Name     string `json:"name"`            // 队伍名称
-		Remark   string `json:"remark,optional"` // 备注
+		LeaderID   int64   `json:"leader_id"`            // 队长id；user_info.id
+		Name       string  `json:"name"`                 // 队伍名称
+		MemberIds  []int64 `json:"member_ids,optional"`  // 成员
+		TeacherIds []int64 `json:"teacher_ids,optional"` // 指导老师
+		Remark     string  `json:"remark,optional"`      // 备注
 	}
 
 	GetTeamReq {
-		Page int    `form:"page,default=1"`
-		Size int    `form:"size,default=10"`
-		Name string `form:"name,optioanl"` // 队伍名称
+		Page      int     `form:"page,default=1"`
+		Size      int     `form:"size,default=10"`
+		Name      string  `form:"name,optional"` // 队伍名称
+		MemberIds []int64 `form:"member_ids[],optional"`
 	}
 
 	GetTeamResp {
@@ -36,10 +47,12 @@ type (
 	}
 
 	UpdateTeamReq {
-		ID       int64  `path:"id"`              // 序号
-		LeaderID int64  `json:"leader_id"`       // 队长id；user_info.id
-		Name     string `json:"name"`            // 队伍名称
-		Remark   string `json:"remark,optional"` // 备注
+		ID         int64   `path:"id"`                   // 序号
+		LeaderID   int64   `json:"leader_id"`            // 队长id；user_info.id
+		Name       string  `json:"name"`                 // 队伍名称
+		MemberIds  []int64 `json:"member_ids,optional"`  // 成员
+		TeacherIds []int64 `json:"teacher_ids,optional"` // 指导老师
+		Remark     string  `json:"remark,optional"`      // 备注
 	}
 
 	DeleteTeamReq {
