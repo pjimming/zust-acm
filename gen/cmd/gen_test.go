@@ -32,3 +32,7 @@ func TestGetTableFields(t *testing.T) {
 func TestConvertToCamelCase(t *testing.T) {
 	assert.Equal(t, "AbcDefGhi", convertToCamelCase("abc_def_ghi"))
 }
+
+func TestConvertToUpperCamelCase(t *testing.T) {
+	assert.Equal(t, "vultureDiskInfo", convertToLowerCamelCase("vulture_disk_info"))
+}

@@ -1,9 +1,8 @@
-package {{toLower .Model}}
+package {{clearUnderline .Model}}
 
 import (
 	"context"
 
-	"github.com/pjimming/zustacm/core/dao"
 	"github.com/pjimming/zustacm/core/internal/svc"
 	"github.com/pjimming/zustacm/core/internal/types"
 	"github.com/pjimming/zustacm/core/utils/errorx"
@@ -12,32 +11,32 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type Update{{firstUpper .Model}}Logic struct {
+type Update{{convertToCamelCase .Model}}Logic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewUpdate{{firstUpper .Model}}Logic(ctx context.Context, svcCtx *svc.ServiceContext) *Update{{firstUpper .Model}}Logic {
-	return &Update{{firstUpper .Model}}Logic{
+func NewUpdate{{convertToCamelCase .Model}}Logic(ctx context.Context, svcCtx *svc.ServiceContext) *Update{{convertToCamelCase .Model}}Logic {
+	return &Update{{convertToCamelCase .Model}}Logic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *Update{{firstUpper .Model}}Logic) Update{{firstUpper .Model}}(req *types.Update{{firstUpper .Model}}Req) error {
+func (l *Update{{convertToCamelCase .Model}}Logic) Update{{convertToCamelCase .Model}}(req *types.Update{{convertToCamelCase .Model}}Req) error {
 
-	{{.Model}}, err := dao.{{firstUpper .Model}}.FindOne(l.svcCtx.DB, req.ID)
+	{{convertToLowerCamelCase .Model}}, err := l.svcCtx.{{convertToCamelCase .Model}}.FindOne(l.ctx, req.ID)
 	if err != nil {
 		err = errorx.ErrorDB(err)
 		return err
 	}
 
-	_ = copier.Copy({{.Model}}, req)
+	_ = copier.Copy({{convertToLowerCamelCase .Model}}, req)
 	// todo: custom trans
 
-	if err = dao.{{firstUpper .Model}}.UpdateOne(l.svcCtx.DB, {{.Model}}); err != nil {
+	if err = l.svcCtx.{{convertToCamelCase .Model}}.Update(l.ctx, l.svcCtx.DB, {{convertToLowerCamelCase .Model}}); err != nil {
 		err = errorx.ErrorDB(err)
 		return err
 	}

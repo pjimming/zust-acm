@@ -1,9 +1,8 @@
-package {{toLower .Model}}
+package {{clearUnderline .Model}}
 
 import (
 	"context"
 
-	"github.com/pjimming/zustacm/core/dao"
 	"github.com/pjimming/zustacm/core/internal/svc"
 	"github.com/pjimming/zustacm/core/internal/types"
 	"github.com/pjimming/zustacm/core/model"
@@ -13,27 +12,27 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type Add{{firstUpper .Model}}Logic struct {
+type Add{{convertToCamelCase .Model}}Logic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewAdd{{firstUpper .Model}}Logic(ctx context.Context, svcCtx *svc.ServiceContext) *Add{{firstUpper .Model}}Logic {
-	return &Add{{firstUpper .Model}}Logic{
+func NewAdd{{convertToCamelCase .Model}}Logic(ctx context.Context, svcCtx *svc.ServiceContext) *Add{{convertToCamelCase .Model}}Logic {
+	return &Add{{convertToCamelCase .Model}}Logic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *Add{{firstUpper .Model}}Logic) Add{{firstUpper .Model}}(req *types.Add{{firstUpper .Model}}Req) error {
+func (l *Add{{convertToCamelCase .Model}}Logic) Add{{convertToCamelCase .Model}}(req *types.Add{{convertToCamelCase .Model}}Req) error {
 
-	{{.Model}} := &model.{{firstUpper .Model}}{}
-	_ = copier.Copy({{.Model}}, req)
+	{{convertToLowerCamelCase .Model}} := &model.{{convertToCamelCase .Model}}{}
+	_ = copier.Copy({{convertToLowerCamelCase .Model}}, req)
 	// todo: custom trans
 
-	if err := dao.{{firstUpper .Model}}.Insert(l.svcCtx.DB, {{.Model}}); err != nil {
+	if err := l.svcCtx.{{convertToCamelCase .Model}}.Insert(l.ctx, l.svcCtx.DB, {{convertToLowerCamelCase .Model}}); err != nil {
 		err = errorx.ErrorDB(err)
 		return err
 	}

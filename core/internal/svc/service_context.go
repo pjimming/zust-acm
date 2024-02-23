@@ -5,6 +5,7 @@ import (
 	"github.com/go-resty/resty/v2"
 	"github.com/pjimming/zustacm/core/internal/config"
 	"github.com/pjimming/zustacm/core/internal/middleware"
+	"github.com/pjimming/zustacm/core/model"
 	"github.com/pjimming/zustacm/core/utils/cfhelper"
 	"github.com/redis/go-redis/v9"
 	"github.com/zeromicro/go-zero/rest"
@@ -16,13 +17,14 @@ import (
 )
 
 type ServiceContext struct {
-	Config      config.Config
-	JwtAuth     rest.Middleware
-	DB          *gorm.DB
-	Redis       *redis.Client
-	Resty       *resty.Client
-	CfHelper    *cfhelper.CfHelper
-	AuthCaptcha *base64Captcha.Captcha
+	Config          config.Config
+	JwtAuth         rest.Middleware
+	DB              *gorm.DB
+	Redis           *redis.Client
+	Resty           *resty.Client
+	CfHelper        *cfhelper.CfHelper
+	AuthCaptcha     *base64Captcha.Captcha
+	VultureDiskInfo model.VultureDiskInfoModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -59,5 +61,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 			base64Captcha.NewDriverDigit(40, 80, 4, 0.4, 15),
 			base64Captcha.DefaultMemStore,
 		),
+
+		VultureDiskInfo: model.NewVultureDiskInfoModel(db),
 	}
 }

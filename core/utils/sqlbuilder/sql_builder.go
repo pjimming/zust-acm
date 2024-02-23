@@ -1,6 +1,7 @@
 package sqlbuilder
 
 import (
+	"context"
 	"fmt"
 	"strings"
 
@@ -13,9 +14,9 @@ type SQLBuilder struct {
 }
 
 // NewSQLBuilder 新建SQLBuilder
-func NewSQLBuilder(session *gorm.DB) *SQLBuilder {
+func NewSQLBuilder(ctx context.Context, session *gorm.DB) *SQLBuilder {
 	return &SQLBuilder{
-		session: session,
+		session: session.WithContext(ctx),
 	}
 }
 

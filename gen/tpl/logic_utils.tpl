@@ -1,7 +1,7 @@
-package {{toLower .Model}}
+package {{clearUnderline .Model}}
 
-func modelToTypes(from *model.{{firstUpper .Model}}) *types.{{firstUpper .Model}} {
-	tmp := &types.{{firstUpper .Model}}{}
+func modelToTypes(from *model.{{convertToCamelCase .Model}}) *types.{{convertToCamelCase .Model}} {
+	tmp := &types.{{convertToCamelCase .Model}}{}
 	_ = copier.Copy(tmp, from)
 	tmp.CreatedAt = from.CreatedAt.UnixMilli()
     tmp.UpdatedAt = from.UpdatedAt.UnixMilli()

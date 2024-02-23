@@ -1,5 +1,7 @@
 import (
-	"gorm.io/gorm"
+	"context"
+	{{if .containsDbSql}}"database/sql"{{end}}
+	{{if .time}}"time"{{end}}
 
-    "github.com/pjimming/zustacm/core/model"
+	"gorm.io/gorm"
 )

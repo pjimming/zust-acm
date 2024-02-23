@@ -11,7 +11,6 @@ import (
 	"path/filepath"
 	"strings"
 	"text/template"
-	"unicode"
 	"xorm.io/core"
 	"xorm.io/xorm"
 )
@@ -22,9 +21,8 @@ const (
 )
 
 func main() {
-	var model, dao, api, logic, home string
+	var model, api, logic, home string
 	flag.StringVar(&model, "model", "", "生成数据表方法名")
-	flag.StringVar(&dao, "dao", "../../core/dao", "生成dao文件目标文件夹")
 	flag.StringVar(&api, "api", "../../core/apis", "生成api文件目标文件夹")
 	flag.StringVar(&logic, "logic", "../../core/internal/logic", "生成logic文件目标文件夹")
 	flag.StringVar(&home, "home", "../tpl", "生成文件模版")
@@ -36,52 +34,50 @@ func main() {
 
 	home = strings.TrimSuffix(home, "/")
 
-	// render dao
-	render(dao, ExtGolang, home+"/dao.tpl", convertToUpperCamelCase(model), map[string]interface{}{"Model": model})
 	// render api
 	render(api, ExtApi, home+"/api.tpl",
-		convertToUpperCamelCase(model),
+		model,
 		map[string]interface{}{
 			"Model":  model,
-			"Fields": getTableFields(convertToUpperCamelCase(model)),
+			"Fields": getTableFields(model),
 		})
 	// render logic crud
 	logic = strings.TrimSuffix(logic, "/")
 	// - create
 	render(
-		fmt.Sprintf("%s/%s", logic, strings.ToLower(model)),
+		fmt.Sprintf("%s/%s", logic, strings.ReplaceAll(model, "_", "")),
 		ExtGolang,
 		home+"/create.tpl",
-		fmt.Sprintf("add_%s_logic", convertToUpperCamelCase(model)),
+		fmt.Sprintf("add_%s_logic", model),
 		map[string]interface{}{"Model": model},
 	)
 	// - read
 	render(
-		fmt.Sprintf("%s/%s", logic, strings.ToLower(model)),
+		fmt.Sprintf("%s/%s", logic, strings.ReplaceAll(model, "_", "")),
 		ExtGolang,
 		home+"/read.tpl",
-		fmt.Sprintf("get_%s_logic", convertToUpperCamelCase(model)),
+		fmt.Sprintf("get_%s_logic", model),
 		map[string]interface{}{"Model": model},
 	)
 	// - update
 	render(
-		fmt.Sprintf("%s/%s", logic, strings.ToLower(model)),
+		fmt.Sprintf("%s/%s", logic, strings.ReplaceAll(model, "_", "")),
 		ExtGolang,
 		home+"/update.tpl",
-		fmt.Sprintf("update_%s_logic", convertToUpperCamelCase(model)),
+		fmt.Sprintf("update_%s_logic", model),
 		map[string]interface{}{"Model": model},
 	)
 	// -delete
 	render(
-		fmt.Sprintf("%s/%s", logic, strings.ToLower(model)),
+		fmt.Sprintf("%s/%s", logic, strings.ReplaceAll(model, "_", "")),
 		ExtGolang,
 		home+"/delete.tpl",
-		fmt.Sprintf("delete_%s_logic", convertToUpperCamelCase(model)),
+		fmt.Sprintf("delete_%s_logic", model),
 		map[string]interface{}{"Model": model},
 	)
 	// -utils
 	render(
-		fmt.Sprintf("%s/%s", logic, strings.ToLower(model)),
+		fmt.Sprintf("%s/%s", logic, strings.ReplaceAll(model, "_", "")),
 		ExtGolang,
 		home+"/logic_utils.tpl",
 		"utils",
@@ -106,9 +102,10 @@ func render(target, ext, tpl, filename string, data map[string]interface{}) {
 	tmpl, err := template.New("template").
 		Funcs(template.FuncMap{
 			"firstUpper":              firstUpper,
-			"convertToUpperCamelCase": convertToUpperCamelCase,
+			"convertToLowerCamelCase": convertToLowerCamelCase,
 			"toLower":                 strings.ToLower,
 			"convertToCamelCase":      convertToCamelCase,
+			"clearUnderline":          clearUnderline,
 		}).
 		Parse(tplText)
 	if err != nil {
@@ -133,16 +130,6 @@ func render(target, ext, tpl, filename string, data map[string]interface{}) {
 
 func firstUpper(s string) string {
 	return strings.ToUpper(s[:1]) + s[1:]
-}
-
-func convertToCamelCase(s string) string {
-	words := strings.Split(s, "_")
-
-	for i := 0; i < len(words); i++ {
-		words[i] = strings.Title(words[i])
-	}
-
-	return strings.Join(words, "")
 }
 
 func readTpl(tplPath string) (string, error) {
@@ -172,22 +159,24 @@ func pathExists(path string) (bool, error) {
 	return false, err
 }
 
-func convertToUpperCamelCase(input string) string {
-	runes := []rune(input)
-	var result []string
-
-	for i := 0; i < len(runes); i++ {
-		if unicode.IsUpper(runes[i]) {
-			if i > 0 {
-				result = append(result, "_")
-			}
-			result = append(result, string(unicode.ToLower(runes[i])))
-		} else {
-			result = append(result, string(runes[i]))
-		}
+func convertToLowerCamelCase(input string) string {
+	words := strings.Split(input, "_")
+	for i := 1; i < len(words); i++ {
+		words[i] = strings.Title(words[i])
 	}
+	return strings.Join(words, "")
+}
 
-	return strings.Join(result, "")
+func convertToCamelCase(s string) string {
+	words := strings.Split(s, "_")
+	for i := 0; i < len(words); i++ {
+		words[i] = strings.Title(words[i])
+	}
+	return strings.Join(words, "")
+}
+
+func clearUnderline(s string) string {
+	return strings.ReplaceAll(s, "_", "")
 }
 
 type TableField struct {
