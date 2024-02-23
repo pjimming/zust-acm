@@ -13,11 +13,21 @@ type (
 		ID        int64  `json:"id"`         // 序号
 		CreatedAt int64  `json:"created_at"` // 创建时间
 		UpdatedAt int64  `json:"updated_at"` // 更新时间
-		// todo: complete
+		{{range .Fields -}}
+            {{if and (ne .Name "id") (ne .Name "created_at") (ne .Name "updated_at") (ne .Name "deleted_at")  (ne .Name "deleted")  (ne .Name "created")  (ne .Name "updated") -}}
+                {{convertToCamelCase .Name}}	{{.Type}} {{.Tag}}
+            {{else -}}
+            {{end}}
+        {{- end}}
 	}
 
 	Add{{firstUpper .Model}}Req {
-		// todo: complete
+		{{range .Fields -}}
+            {{if and (ne .Name "id") (ne .Name "created_at") (ne .Name "updated_at") (ne .Name "deleted_at")  (ne .Name "deleted")  (ne .Name "created")  (ne .Name "Updated") -}}
+                {{convertToCamelCase .Name}}	{{.Type}} {{.Tag}}
+            {{else -}}
+            {{end}}
+        {{- end}}
 	}
 
 	Get{{firstUpper .Model}}Req {
@@ -33,7 +43,12 @@ type (
 
 	Update{{firstUpper .Model}}Req {
 		ID     int64  `path:"id"`              // 序号
-		// todo: complete
+		{{range .Fields -}}
+            {{if and (ne .Name "id") (ne .Name "created_at") (ne .Name "updated_at") (ne .Name "deleted_at")  (ne .Name "deleted")  (ne .Name "created")  (ne .Name "Updated") -}}
+                {{convertToCamelCase .Name}}	{{.Type}} {{.Tag}}
+            {{else -}}
+            {{end}}
+        {{- end}}
 	}
 
 	Delete{{firstUpper .Model}}Req {

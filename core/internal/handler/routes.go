@@ -15,6 +15,7 @@ import (
 	sysdict "github.com/pjimming/zustacm/core/internal/handler/sysdict"
 	team "github.com/pjimming/zustacm/core/internal/handler/team"
 	user "github.com/pjimming/zustacm/core/internal/handler/user"
+	vulturediskinfo "github.com/pjimming/zustacm/core/internal/handler/vulturediskinfo"
 	"github.com/pjimming/zustacm/core/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -301,6 +302,34 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodDelete,
 					Path:    "/api/v1/team/:id",
 					Handler: team.DeleteTeamHandler(serverCtx),
+				},
+			}...,
+		),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.JwtAuth},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/api/v1/vulturediskinfo",
+					Handler: vulturediskinfo.AddVultureDiskInfoHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/api/v1/vulturediskinfo",
+					Handler: vulturediskinfo.GetVultureDiskInfoHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/api/v1/vulturediskinfo/:id",
+					Handler: vulturediskinfo.UpdateVultureDiskInfoHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/api/v1/vulturediskinfo/:id",
+					Handler: vulturediskinfo.DeleteVultureDiskInfoHandler(serverCtx),
 				},
 			}...,
 		),

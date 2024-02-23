@@ -1,11 +1,5 @@
 package dao
 
-import (
-	"gorm.io/gorm"
-
-	"github.com/pjimming/zustacm/core/model"
-)
-
 var {{firstUpper .Model}} = &{{.Model}}{}
 
 type {{.Model}} struct {

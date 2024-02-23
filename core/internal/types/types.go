@@ -406,3 +406,110 @@ type UpdateTeamReq struct {
 type DeleteTeamReq struct {
 	ID int64 `path:"id"`
 }
+
+type VultureDiskInfo struct {
+	ID              int64  `json:"id"`         // 序号
+	CreatedAt       int64  `json:"created_at"` // 创建时间
+	UpdatedAt       int64  `json:"updated_at"` // 更新时间
+	Creator         string `json:"creator"`
+	VultureDiskId   int64  `json:"vulture_disk_id"`
+	RefId           int64  `json:"ref_id"`
+	Host            string `json:"host"`
+	RaidModel       string `json:"raid_model"`
+	Location        string `json:"location"`
+	Slot            string `json:"slot"`
+	Manufacturer    string `json:"manufacturer"`
+	Model           string `json:"model"`
+	Wwn             string `json:"wwn"`
+	SerialNumber    string `json:"serial_number"`
+	BusType         string `json:"bus_type"`
+	MediaType       string `json:"media_type"`
+	Size            int64  `json:"size"`
+	ErrorCount      int64  `json:"error_count"`
+	PartNumber      string `json:"part_number"`
+	FirmwareVersion string `json:"firmware_version"`
+	TransferSpeed   string `json:"transfer_speed"`
+	FirmwareState   string `json:"firmware_state"`
+	ForeignState    string `json:"foreign_state"`
+	InquiryData     string `json:"inquiry_data"`
+	ControllerId    string `json:"controller_id"`
+	Light           string `json:"light"`
+	DiskLife        int64  `json:"disk_life"`
+	Path            string `json:"path"`
+	MountPoint      string `json:"mount_point"`
+}
+
+type AddVultureDiskInfoReq struct {
+	Updated         string `json:"updated"`
+	Creator         string `json:"creator"`
+	VultureDiskId   int64  `json:"vulture_disk_id"`
+	RefId           int64  `json:"ref_id"`
+	Host            string `json:"host"`
+	RaidModel       string `json:"raid_model"`
+	Location        string `json:"location"`
+	Slot            string `json:"slot"`
+	Manufacturer    string `json:"manufacturer"`
+	Model           string `json:"model"`
+	Wwn             string `json:"wwn"`
+	SerialNumber    string `json:"serial_number"`
+	BusType         string `json:"bus_type"`
+	MediaType       string `json:"media_type"`
+	Size            int64  `json:"size"`
+	ErrorCount      int64  `json:"error_count"`
+	PartNumber      string `json:"part_number"`
+	FirmwareVersion string `json:"firmware_version"`
+	TransferSpeed   string `json:"transfer_speed"`
+	FirmwareState   string `json:"firmware_state"`
+	ForeignState    string `json:"foreign_state"`
+	InquiryData     string `json:"inquiry_data"`
+	ControllerId    string `json:"controller_id"`
+	Light           string `json:"light"`
+	DiskLife        int64  `json:"disk_life"`
+	Path            string `json:"path"`
+	MountPoint      string `json:"mount_point"`
+}
+
+type GetVultureDiskInfoReq struct {
+	Page int `form:"page,default=1"`
+	Size int `form:"size,default=10"`
+}
+
+type GetVultureDiskInfoResp struct {
+	Items []*VultureDiskInfo `json:"items"`
+	Total int64              `json:"total"`
+}
+
+type UpdateVultureDiskInfoReq struct {
+	ID              int64  `path:"id"` // 序号
+	Updated         string `json:"updated"`
+	Creator         string `json:"creator"`
+	VultureDiskId   int64  `json:"vulture_disk_id"`
+	RefId           int64  `json:"ref_id"`
+	Host            string `json:"host"`
+	RaidModel       string `json:"raid_model"`
+	Location        string `json:"location"`
+	Slot            string `json:"slot"`
+	Manufacturer    string `json:"manufacturer"`
+	Model           string `json:"model"`
+	Wwn             string `json:"wwn"`
+	SerialNumber    string `json:"serial_number"`
+	BusType         string `json:"bus_type"`
+	MediaType       string `json:"media_type"`
+	Size            int64  `json:"size"`
+	ErrorCount      int64  `json:"error_count"`
+	PartNumber      string `json:"part_number"`
+	FirmwareVersion string `json:"firmware_version"`
+	TransferSpeed   string `json:"transfer_speed"`
+	FirmwareState   string `json:"firmware_state"`
+	ForeignState    string `json:"foreign_state"`
+	InquiryData     string `json:"inquiry_data"`
+	ControllerId    string `json:"controller_id"`
+	Light           string `json:"light"`
+	DiskLife        int64  `json:"disk_life"`
+	Path            string `json:"path"`
+	MountPoint      string `json:"mount_point"`
+}
+
+type DeleteVultureDiskInfoReq struct {
+	ID int64 `path:"id"`
+}

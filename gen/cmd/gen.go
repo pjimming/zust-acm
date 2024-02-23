@@ -1,14 +1,19 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/pjimming/zustacm/gen/config"
 	"io"
 	"os"
 	"path/filepath"
 	"strings"
 	"text/template"
 	"unicode"
+	"xorm.io/core"
+	"xorm.io/xorm"
 )
 
 const (
@@ -32,54 +37,59 @@ func main() {
 	home = strings.TrimSuffix(home, "/")
 
 	// render dao
-	render(dao, ExtGolang, model, home+"/dao.tpl", convertToUpperCamelCase(model))
+	render(dao, ExtGolang, home+"/dao.tpl", convertToUpperCamelCase(model), map[string]interface{}{"Model": model})
 	// render api
-	render(api, ExtApi, model, home+"/api.tpl", convertToUpperCamelCase(model))
+	render(api, ExtApi, home+"/api.tpl",
+		convertToUpperCamelCase(model),
+		map[string]interface{}{
+			"Model":  model,
+			"Fields": getTableFields(convertToUpperCamelCase(model)),
+		})
 	// render logic crud
 	logic = strings.TrimSuffix(logic, "/")
 	// - create
 	render(
 		fmt.Sprintf("%s/%s", logic, strings.ToLower(model)),
 		ExtGolang,
-		model,
 		home+"/create.tpl",
 		fmt.Sprintf("add_%s_logic", convertToUpperCamelCase(model)),
+		map[string]interface{}{"Model": model},
 	)
 	// - read
 	render(
 		fmt.Sprintf("%s/%s", logic, strings.ToLower(model)),
 		ExtGolang,
-		model,
 		home+"/read.tpl",
 		fmt.Sprintf("get_%s_logic", convertToUpperCamelCase(model)),
+		map[string]interface{}{"Model": model},
 	)
 	// - update
 	render(
 		fmt.Sprintf("%s/%s", logic, strings.ToLower(model)),
 		ExtGolang,
-		model,
 		home+"/update.tpl",
 		fmt.Sprintf("update_%s_logic", convertToUpperCamelCase(model)),
+		map[string]interface{}{"Model": model},
 	)
 	// -delete
 	render(
 		fmt.Sprintf("%s/%s", logic, strings.ToLower(model)),
 		ExtGolang,
-		model,
 		home+"/delete.tpl",
 		fmt.Sprintf("delete_%s_logic", convertToUpperCamelCase(model)),
+		map[string]interface{}{"Model": model},
 	)
 	// -utils
 	render(
 		fmt.Sprintf("%s/%s", logic, strings.ToLower(model)),
 		ExtGolang,
-		model,
 		home+"/logic_utils.tpl",
 		"utils",
+		map[string]interface{}{"Model": model},
 	)
 }
 
-func render(target, ext, model, tpl, filename string) {
+func render(target, ext, tpl, filename string, data map[string]interface{}) {
 	target = strings.TrimSuffix(target, "/")
 	filePath := fmt.Sprintf("%s/%s.%s", target, filename, ext)
 	filePath, _ = filepath.Abs(filePath)
@@ -98,6 +108,7 @@ func render(target, ext, model, tpl, filename string) {
 			"firstUpper":              firstUpper,
 			"convertToUpperCamelCase": convertToUpperCamelCase,
 			"toLower":                 strings.ToLower,
+			"convertToCamelCase":      convertToCamelCase,
 		}).
 		Parse(tplText)
 	if err != nil {
@@ -114,7 +125,7 @@ func render(target, ext, model, tpl, filename string) {
 	}
 	defer f.Close()
 
-	if err = tmpl.Execute(f, map[string]interface{}{"Model": model}); err != nil {
+	if err = tmpl.Execute(f, data); err != nil {
 		panic(err)
 	}
 	fmt.Printf("generate file: %s\n", filePath)
@@ -122,6 +133,16 @@ func render(target, ext, model, tpl, filename string) {
 
 func firstUpper(s string) string {
 	return strings.ToUpper(s[:1]) + s[1:]
+}
+
+func convertToCamelCase(s string) string {
+	words := strings.Split(s, "_")
+
+	for i := 0; i < len(words); i++ {
+		words[i] = strings.Title(words[i])
+	}
+
+	return strings.Join(words, "")
 }
 
 func readTpl(tplPath string) (string, error) {
@@ -167,4 +188,61 @@ func convertToUpperCamelCase(input string) string {
 	}
 
 	return strings.Join(result, "")
+}
+
+type TableField struct {
+	Name string
+	Type string
+	Tag  string
+}
+
+func getTableFields(table string) []map[string]interface{} {
+	dbEngine, err := xorm.NewEngine("mysql", config.GlobalConfig.Database.Dsn)
+	if err != nil {
+		panic(err)
+	}
+
+	tables, err := dbEngine.DBMetas()
+	if err != nil {
+		panic(err)
+	}
+
+	var ret []*TableField
+
+	for _, item := range tables {
+		if item.Name != table {
+			continue
+		}
+
+		for _, column := range item.Columns() {
+			field := &TableField{}
+			// get type
+			s := core.SQLType2Type(core.SQLType{
+				Name:           column.SQLType.Name,
+				DefaultLength:  int(column.SQLType.DefaultLength),
+				DefaultLength2: int(column.SQLType.DefaultLength2),
+			}).String()
+			if s == "[]uint8" {
+				s = "[]byte"
+			}
+			if s == "int" {
+				s = "int64"
+			}
+			if s == "time.Time" {
+				s = "string"
+			}
+			field.Type = s
+			// get name
+			field.Name = column.Name
+			// get tag
+			field.Tag = fmt.Sprintf("`json:\"%s\"`", field.Name)
+			ret = append(ret, field)
+		}
+	}
+
+	fields := make([]map[string]interface{}, 0)
+	retBytes, _ := json.Marshal(ret)
+	_ = json.Unmarshal(retBytes, &fields)
+
+	return fields
 }

@@ -17,4 +17,5 @@ import (
 	"apis/record.api"
 	"apis/sys_dict.api"
 	"apis/team.api"
+	"apis/vulture_disk_info.api"
 )

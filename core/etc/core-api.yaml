@@ -15,4 +15,9 @@ Mysql:
 
 Redis:
   Addr: localhost:6379
-  Password:
+  Password: ""
+
+Qiniu:
+  Bucket: zust-acm-abroad
+  AK: ""
+  SK: ""
